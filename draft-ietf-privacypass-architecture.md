@@ -150,7 +150,7 @@ the figure below.
   |                 \-----------------------------------------/
   \--------------------------------------------------------------------
 ~~~
-{: #fig-overview title=" Privacy Pass Architectural Components"}
+{: #fig-overview title="Privacy Pass Architectural Components"}
 
 This document describes requirements for both issuance and redemption
 protocols. This document also describes ecosystem considerations that
@@ -292,12 +292,12 @@ to:
 - Trusted device. Some Clients run on trusted hardware that are capable of
   producing device-level attestation statements.
 
-Each of these attestation types have different security properties. For
-example, attesting to having a valid account is different from attesting to be
+Each of these attestation types have different security and privacy properties.
+For example, attesting to having a valid account is different from attesting to be
 running on trusted hardware. In general, Attesters should accept a limited form
-of attestation formats.
+of attestation types.
 
-Each attestation format also has an impact on the overall system privacy. For
+Each attestation type also has an impact on the overall system privacy. For
 example, the number of users in possession of a single class of trusted device
 might be lesser than the number of users that can solve CAPTCHAs. Similarly,
 requiring a conjunction of attestation types could decrease the overall
@@ -409,6 +409,199 @@ privacy impacts of the extension, why these impacts are justified, and
 guidelines on changes to the parametrization in {{parametrization}}.
 Any extension to the Privacy Pass protocol MUST adhere to the guidelines
 specified in {{issuer-role}} for managing Issuer public key data.
+
+# Deployment Considerations {#deployment}
+
+The Origin, Attester, and Issuer portrayed in {{fig-overview}} can be instantiated
+and deployed in a number of different ways. This section covers some expected
+deployment models and their corresponding security and privacy considerations.
+The discussion below assumes non-collusion between entities when operated by
+separate parties.
+
+## Shared Origin, Attester, Issuer {#deploy-shared}
+
+In this model, the Origin, Attester, and Issuer are all operated by the same entity,
+as shown in the figure below.
+
+~~~
+                   +------------------------------------------+
+      Client       |  Attester         Issuer         Origin  |
+        |          |                                          |
+        |          |          Challenge                       |
+        <----------------------------------------------+      |
+        |          | Attest                                   |
+        +----------------->                                   |
+        |          |     TokenRequest                         |
+        +-------------------------------->                    |
+        |          |     TokenResponse                        |
+        <--------------------------------+                    |
+        |          |          Redeem                          |
+        +---------------------------------------------->      |
+                   +------------------------------------------+
+~~~
+{: #fig-deploy-shared title="Shared Deployment Model"}
+
+This model represents the initial deployment of Privacy Pass, as described in {{PPSRV}}.
+In this model, the Attester, Issuer, and Origin all have a shared view of the Client.
+As a result, attestation mechanisms that can uniquely identify a Client, e.g., requiring
+that Clients authenticate with some type of application-layer account, are not appropriate,
+as they could be used to learn or reconstruct a Client's browsing history.
+
+This model requires Client redemption unlinkability for meaningful privacy guarantees.
+In particular, if Origin can link redemption events to the same Client, they can
+reconstruct the Client's browsing history. Possible mechanisms for achieving redemption
+unlinkability include using an anonymizing proxy when connecting to the Origin.
+Assuming redemption unlinkability, this model admits any type of token challenge.
+See {{redemption-unlinkability}} for more discussion.
+
+## Joint Attester and Issuer {#deploy-joint-issuer}
+
+In this model, the Attester and Issuer are operated by the same entity
+that is separate from the Origin, as shown in the figure below.
+
+~~~
+                                                   +-----------+
+      Client                                       |   Origin  |
+        |                    Challenge             |           |
+        <-----------------------------------------------+      |
+        |                                          |           |
+        |          +---------------------------+   |           |
+        |          |  Attester         Issuer  |   |           |
+        |          |                           |   |           |
+        |          | Attest                    |   |           |
+        +----------------->                    |   |           |
+        |          |     TokenRequest          |   |           |
+        +-------------------------------->     |   |           |
+        |          |     TokenResponse         |   |           |
+        <--------------------------------+     |   |           |
+        |          +---------------------------+   |           |
+        |                                          |           |
+        |                    Redeem                |           |
+        +----------------------------------------------->      |
+                                                   |           |
+                                                   +-----------+
+~~~
+{: #fig-deploy-joint-issuer title="Joint Attester and Issuer Deployment Model"}
+
+This model is useful if an Origin wants to offload attestation and issuance
+to a trusted entity. In this model, the Attester and Issuer share a common
+view of the Client, which can be separate from the Origin's view of the Client.
+
+Depending on the type of attestation performed, not all token types are suitable
+in this model. Specifically, per-origin tokens and issuance protocols that require
+the Issuer to learn the origin, such as that which is described in [rate-limited],
+are not appropriate since they allow the Issuer to learn the origin name. If
+attestation uniquely identifies a Client, then the Issuer and Attester can reconstruct
+the Client's browsing history.
+
+As in the shared model, this model also requires Client redemption unlinkability
+for meaningful privacy guarantees.
+
+## Joint Origin and Issuer {#deploy-joint-origin}
+
+In this model, the Origin, Attester, and Issuer are all operated by different entities,
+as shown in the figure below.
+
+~~~
+                                    +--------------------------+
+      Client                        |   Issuer         Origin  |
+        |                Challenge  |                          |
+        <-----------------------------------------------+      |
+        |                           |                          |
+        |          +-----------+    |                          |
+        |          |  Attester |    |                          |
+        |          |           |    |                          |
+        |          | Attest    |    |                          |
+        +----------------->    |    |                          |
+        |          |           |    |                          |
+        |          |     TokenRequest                          |
+        +-------------------------------->                     |
+        |          |           |    |                          |
+        |          |     TokenResponse                         |
+        <--------------------------------+                     |
+        |          |           |    |                          |
+        |          +-----------+    |                          |
+        |                           |                          |
+        |                 Redeem    |                          |
+        +----------------------------------------------->      |
+                                    +--------------------------+
+~~~
+{: #fig-deploy-joint-origin title="Joint Origin and Issuer Deployment Model"}
+
+This model is useful for Origins that require Client-identifying attestation,
+e.g., through the use of application-layer account information, but do not
+otherwise want to learn information about individual Clients beyond what is
+observed during the token redemption, such as Client IP addresses. In this
+model, the Issuer and Origin have a separate view of the Client during
+issuance and redemption, but do not share the Attester's view of the Client.
+As a result, any type of attestation is suitable in this model. Moreover,
+any type of token challenge is suitable assuming Client redemption unlinkability,
+since no single party will have access to the identifying Client information
+and unique Origin information.
+
+## Split Origin, Attester, Issuer {#deploy-split}
+
+In this model, the Origin, Attester, and Issuer are all operated by different entities,
+as shown in the figure below.
+
+~~~
+                                                   +-----------+
+      Client                                       |   Origin  |
+        |                    Challenge             |           |
+        <-----------------------------------------------+      |
+        |                                          |           |
+        |          +-----------+                   |           |
+        |          |  Attester |                   |           |
+        |          |           |                   |           |
+        |          | Attest    |    +----------+   |           |
+        +----------------->    |    |  Issuer  |   |           |
+        |          |           |    |          |   |           |
+        |          |     TokenRequest          |   |           |
+        +-------------------------------->     |   |           |
+        |          |           |    |          |   |           |
+        |          |     TokenResponse         |   |           |
+        <--------------------------------+     |   |           |
+        |          |           |    |          |   |           |
+        |          +-----------+    +----------+   |           |
+        |                                          |           |
+        |                    Redeem                |           |
+        +----------------------------------------------->      |
+                                                   |           |
+                                                   +-----------+
+~~~
+{: #fig-deploy-split title="Split Deployment Model"}
+
+This is the most general deployment model, and is necessary for some
+types of issuance protocols where the Attester plays a role in token
+issuance; see [rate-limited] for one such type of issuance protocol.
+In this model, the Attester, Issuer, and Origin have a separate view
+of the Client: the Attester sees potentially sensitive Client identifying
+information, such as account identifiers or IP addresses, the Issuer
+sees only the information necessary for Issuance, and the Origin sees
+token challenges, corresponding tokens, and Client source information,
+such as their IP address. As a result, any type of token challenge is
+suitable in this model since no single party will have access to both
+identifying Client information and unique Origin information. Of course,
+as in the shared model, requires Client redemption unlinkability for
+meaningful privacy guarantees.
+
+## Redemption Unlinkability {{redemption-unlinkability}}
+
+Privacy Pass is designed such that token issuance and redemption are unlinkable
+events. In deployment models where Issuer and Origin are operated by the same
+entity, they may trivially link issuance and redemption events, e.g., by comparing
+timestamps of issuance and redemption for interactive tokens. If Issuer or Origin
+also see unique Client information, e.g., through an identifying type of attestation,
+they could use this linkability to reconstruct a Client's browsing history.
+
+While issuance and redemption unlinkability is important, as argued above, meaningful
+privacy guarantees also require redemption event unlinkability. In particular, if
+an Origin can link any two redemption events together, then it learns information about
+the corresponding Client's browsing history. For per-origin tokens, this means
+the Origin can learn when the same Client visits the same Origin across time.
+Likewise, for cross-origin tokens, this means the Origin can learn the set of
+Origins the Client visited across time. Privacy Pass deployments SHOULD take
+measures to redemption unlinkability is upheld.
 
 # Privacy considerations {#privacy}
 
