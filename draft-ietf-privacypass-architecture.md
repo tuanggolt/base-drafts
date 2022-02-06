@@ -585,7 +585,7 @@ identifying Client information and unique Origin information. Of course,
 as in the shared model, requires Client redemption unlinkability for
 meaningful privacy guarantees.
 
-## Redemption Unlinkability {{redemption-unlinkability}}
+## Redemption Unlinkability {#redemption-unlinkability}
 
 Privacy Pass is designed such that token issuance and redemption are unlinkable
 events. In deployment models where Issuer and Origin are operated by the same
