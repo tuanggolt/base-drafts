@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-02-13T01:00:28.466882+00:00",
+  "timestamp": "2022-03-03T01:06:14.481590+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1325,7 +1325,7 @@
       "id": "I_kwDODeTEy85DI5H9",
       "title": "HTTP examples",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/96",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1336,8 +1336,8 @@
       ],
       "body": "See [Mark's original issue](https://github.com/tfpauly/privacy-proxy/issues/160#issue-1125596987).",
       "createdAt": "2022-02-07T19:26:59Z",
-      "updatedAt": "2022-02-09T22:58:34Z",
-      "closedAt": null,
+      "updatedAt": "2022-03-02T17:11:12Z",
+      "closedAt": "2022-03-02T17:11:12Z",
       "comments": []
     },
     {
@@ -6141,21 +6141,21 @@
       "id": "PR_kwDODeTEy84x62Vm",
       "title": "Address correlation attacks",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/92",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Drafty draft that addresses #90. I tried to generalize the problem and focus on correlation via either the _source_ for an event, like the client IP address or whatever, and the _context_ of an event, like the timestamp at which it occurs or the origin associated with the event. It is not a tremendous problem if two things are correlated via context so long as the clients are not linkable. (This is the argument with things like ODoH, where we can't link any two requests to the same client, but we can link two requests as being related.) What's most important here, I think, is source correlation, and clients can control this by working _through_ an attester or some other proxy.\r\n\r\nWhat do folks think?\r\n\r\nStarting as a draft while we work on the presentation.\r\n\r\nCloses #90.",
       "createdAt": "2022-02-01T17:33:56Z",
-      "updatedAt": "2022-02-04T20:21:58Z",
+      "updatedAt": "2022-03-02T17:11:03Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "a3f9004e932831a6284723fa74209e260c6500be",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "caw/correlation",
       "headRefOid": "817ee205851e084604d336fdbd45ccacc24bd47e",
-      "closedAt": null,
+      "closedAt": "2022-03-02T17:11:03Z",
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
@@ -6166,6 +6166,13 @@
           "body": "@tfpauly @dvorak42 @alxdavids ready for review now. @janaiyengar, please have a look, too!",
           "createdAt": "2022-02-02T19:28:08Z",
           "updatedAt": "2022-02-02T19:28:08Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Closing in favor of #100.",
+          "createdAt": "2022-03-02T17:11:03Z",
+          "updatedAt": "2022-03-02T17:11:03Z"
         }
       ],
       "reviews": [
@@ -6792,6 +6799,201 @@
           "createdAt": "2022-02-07T20:13:48Z",
           "updatedAt": "2022-02-07T20:13:48Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 99,
+      "id": "PR_kwDODeTEy84zvU7e",
+      "title": "Add configuration parameters",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/99",
+      "state": "MERGED",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #96.\r\n\r\ncc @mnot, @tfpauly ",
+      "createdAt": "2022-03-01T16:26:51Z",
+      "updatedAt": "2022-03-02T17:11:13Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "cd845fbac27f1bbddccaa9079856f6d7b530bfac",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "caw/configuration",
+      "headRefOid": "4790e89b3e7c1fbd067783fcc9a09dc9f8655a5e",
+      "closedAt": "2022-03-02T17:11:12Z",
+      "mergedAt": "2022-03-02T17:11:12Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "9cb46ee740b9e88707935753951efa99150dc15d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy841cBNK",
+          "commit": {
+            "abbreviatedOid": "8bef0cb"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-03-01T16:28:19Z",
+          "updatedAt": "2022-03-01T16:28:19Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 100,
+      "id": "PR_kwDODeTEy84z19ca",
+      "title": "Add deployment models and considerations",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/100",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #90.\r\n\r\ncc @janaiyengar, @tfpauly, @smhendrickson, @dvorak42 ",
+      "createdAt": "2022-03-02T17:10:30Z",
+      "updatedAt": "2022-03-02T18:03:13Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "cd845fbac27f1bbddccaa9079856f6d7b530bfac",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "caw/deployment-and-privacy",
+      "headRefOid": "984620cf4b116aa7fdd830441259d39a29542257",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy841hW3p",
+          "commit": {
+            "abbreviatedOid": "4acf0e3"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-03-02T17:47:35Z",
+          "updatedAt": "2022-03-02T17:47:42Z",
+          "comments": [
+            {
+              "originalPosition": 207,
+              "body": "It may be good to point out that this model is less useful if there's only one origin for the issuer \u2014 since then the attester knows exactly what the origin is. In that case, some token types aren't advisable.",
+              "createdAt": "2022-03-02T17:47:35Z",
+              "updatedAt": "2022-03-02T17:47:42Z"
+            },
+            {
+              "originalPosition": 86,
+              "body": "Should we mention at all how the client knows which entities are separate? If that's out of scope, can we say so or make a reference?",
+              "createdAt": "2022-03-02T17:47:38Z",
+              "updatedAt": "2022-03-02T17:47:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy841hZc5",
+          "commit": {
+            "abbreviatedOid": "4acf0e3"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-02T17:52:35Z",
+          "updatedAt": "2022-03-02T17:52:35Z",
+          "comments": [
+            {
+              "originalPosition": 86,
+              "body": "Hmm, I don't think clients can know they're separate or not colluding. So we could probably just say, \"Mechanisms for enforcing non-collusion are out of scope for this architecture.\"?",
+              "createdAt": "2022-03-02T17:52:35Z",
+              "updatedAt": "2022-03-02T17:52:35Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy841haKk",
+          "commit": {
+            "abbreviatedOid": "4acf0e3"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-02T17:53:55Z",
+          "updatedAt": "2022-03-02T17:53:55Z",
+          "comments": [
+            {
+              "originalPosition": 207,
+              "body": "Indeed, per-origin tokens challenged by a single origin seem useless, though I'm not sure we need to explicitly call it out. Curious to hear what others think!",
+              "createdAt": "2022-03-02T17:53:55Z",
+              "updatedAt": "2022-03-02T17:53:55Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy841hbnK",
+          "commit": {
+            "abbreviatedOid": "4acf0e3"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-02T17:56:29Z",
+          "updatedAt": "2022-03-02T17:56:29Z",
+          "comments": [
+            {
+              "originalPosition": 86,
+              "body": "Yup, that would be good to add.",
+              "createdAt": "2022-03-02T17:56:29Z",
+              "updatedAt": "2022-03-02T17:56:29Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy841hcMa",
+          "commit": {
+            "abbreviatedOid": "4acf0e3"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-02T17:57:23Z",
+          "updatedAt": "2022-03-02T17:57:23Z",
+          "comments": [
+            {
+              "originalPosition": 207,
+              "body": "I think it's important to call out, since it reduces the applicability of this deployment model. If my origin is small (only one real origin), then I should know that this probably isn't the right choice for me.",
+              "createdAt": "2022-03-02T17:57:23Z",
+              "updatedAt": "2022-03-02T17:57:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy841hdwS",
+          "commit": {
+            "abbreviatedOid": "4acf0e3"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-02T18:02:36Z",
+          "updatedAt": "2022-03-02T18:02:36Z",
+          "comments": [
+            {
+              "originalPosition": 207,
+              "body": "I don't really agree, but also don't feel strongly, so I'll add it.",
+              "createdAt": "2022-03-02T18:02:36Z",
+              "updatedAt": "2022-03-02T18:02:36Z"
+            }
+          ]
         }
       ]
     }
