@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-03-03T01:06:14.481590+00:00",
+  "timestamp": "2022-03-06T01:03:14.150456+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1269,9 +1269,9 @@
       "id": "I_kwDODeTEy85CwDs-",
       "title": "Expand upon correlation attacks and mitigations",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/90",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tfpauly",
-      "authorAssociation": "CONTRIBUTOR",
+      "authorAssociation": "COLLABORATOR",
       "assignees": [
         "chris-wood"
       ],
@@ -1280,8 +1280,8 @@
       ],
       "body": "In the architecture document, we should have more discussion of correlation attacks and ways to mitigate. For example, interactive vs non-interactive tokens can making timing correlation attacks more or less relevant. For mitigations, the deployment model of issuer/origin (and attester) can make a difference.",
       "createdAt": "2022-01-31T20:22:24Z",
-      "updatedAt": "2022-01-31T20:23:58Z",
-      "closedAt": null,
+      "updatedAt": "2022-03-05T16:49:12Z",
+      "closedAt": "2022-03-05T16:49:12Z",
       "comments": []
     },
     {
@@ -6814,7 +6814,7 @@
       "labels": [],
       "body": "Closes #96.\r\n\r\ncc @mnot, @tfpauly ",
       "createdAt": "2022-03-01T16:26:51Z",
-      "updatedAt": "2022-03-02T17:11:13Z",
+      "updatedAt": "2022-03-03T23:39:44Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "cd845fbac27f1bbddccaa9079856f6d7b530bfac",
@@ -6827,7 +6827,36 @@
       "mergeCommit": {
         "oid": "9cb46ee740b9e88707935753951efa99150dc15d"
       },
-      "comments": [],
+      "comments": [
+        {
+          "author": "mnot",
+          "authorAssociation": "NONE",
+          "body": "This is fine, but why are you using a well-known location? It seems like it's just adding a RT so that people can avoid using a full URI for configuration. ",
+          "createdAt": "2022-03-03T22:54:25Z",
+          "updatedAt": "2022-03-03T22:54:25Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@mnot can you help us understand what would be the preferred alternative? At the end of the day, if I'm an origin or client and need to get this information from an issuer, and all I have is the issuer name, what am I left with?",
+          "createdAt": "2022-03-03T22:56:48Z",
+          "updatedAt": "2022-03-03T22:56:48Z"
+        },
+        {
+          "author": "mnot",
+          "authorAssociation": "NONE",
+          "body": "So that's the question -- what does the person using the service have to start with? \r\n\r\nE.g., if I know that the service I want to work with is \"cloudflare\", I still have to discover something more specific, even with the current `.well-known` approach -- I need a hostname (and possibly a port). It might be `cloudflare.com`, but it equally could be `api.cloudflare.com` or `privacypass-inititate.cloudflare.com`.\r\n\r\nSo I have to find it somewhere, probably in documentation. Given that I have to go through that process as a consumer of this API, what's the advantage of configuring with just a hostname, vs. a full URL -- allowing you to skip the .well-known location?\r\n\r\nSkipping the .well-known saves latency and also avoids some caching issues (i.e., how long can you trust the information in it for? How do you manage change?)\r\n\r\nThere are reasons that this would be the case -- e.g., if there's a lot more configuration information to convey (that hasn't made it into the spec yet), the indirection is actually desirable for operational purposes, or that the hostname _can_ be inferred / discovered automatically (e.g., with a DNS record for the registrable domain name). I'm not deep enough into this protocol to know whether any of this is the case.\r\n\r\n",
+          "createdAt": "2022-03-03T23:09:19Z",
+          "updatedAt": "2022-03-03T23:09:19Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> E.g., if I know that the service I want to work with is \"cloudflare\", I still have to discover something more specific, even with the current .well-known approach -- I need a hostname (and possibly a port). It might be cloudflare.com, but it equally could be api.cloudflare.com or privacypass-inititate.cloudflare.com.\r\n\r\nI would expect a common practice to be that folks are configured with the full authority (`issuer.example` and the implied :443 port). And [following best practices](https://www.ietf.org/id/draft-ietf-httpbis-bcp56bis-15.html#name-discovering-an-applications), they could then use to this discover additional information using a registered .well-known. \r\n\r\nBut, to your point, if they're configured this way, it's probably reasonable to require them to simply be configured with the full URL used to obtain the configuration dictionary. That is, instead of configuring them `issuer.example`, configure them with `https://issuer.example/my-special-configuraiton-url/`. \r\n\r\nI'm not sure we have enough experience yet to know which of these would be preferred. It's probably worth splitting this off into a separate issue to track as things progress. @tfpauly, thoughts?",
+          "createdAt": "2022-03-03T23:39:44Z",
+          "updatedAt": "2022-03-03T23:39:44Z"
+        }
+      ],
       "reviews": [
         {
           "id": "PRR_kwDODeTEy841cBNK",
@@ -6835,7 +6864,7 @@
             "abbreviatedOid": "8bef0cb"
           },
           "author": "tfpauly",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2022-03-01T16:28:19Z",
@@ -6849,24 +6878,26 @@
       "id": "PR_kwDODeTEy84z19ca",
       "title": "Add deployment models and considerations",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/100",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #90.\r\n\r\ncc @janaiyengar, @tfpauly, @smhendrickson, @dvorak42 ",
       "createdAt": "2022-03-02T17:10:30Z",
-      "updatedAt": "2022-03-02T18:03:13Z",
+      "updatedAt": "2022-03-05T16:50:03Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "cd845fbac27f1bbddccaa9079856f6d7b530bfac",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "caw/deployment-and-privacy",
       "headRefOid": "984620cf4b116aa7fdd830441259d39a29542257",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-03-05T16:49:13Z",
+      "mergedAt": "2022-03-05T16:49:12Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "4ab8b9dcc090f7114541c9da81866ff4db3db774"
+      },
       "comments": [],
       "reviews": [
         {
@@ -6875,7 +6906,7 @@
             "abbreviatedOid": "4acf0e3"
           },
           "author": "tfpauly",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "APPROVED",
           "body": "",
           "createdAt": "2022-03-02T17:47:35Z",
@@ -6941,7 +6972,7 @@
             "abbreviatedOid": "4acf0e3"
           },
           "author": "tfpauly",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2022-03-02T17:56:29Z",
@@ -6961,7 +6992,7 @@
             "abbreviatedOid": "4acf0e3"
           },
           "author": "tfpauly",
-          "authorAssociation": "CONTRIBUTOR",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2022-03-02T17:57:23Z",
@@ -6994,6 +7025,66 @@
               "updatedAt": "2022-03-02T18:02:36Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 101,
+      "id": "PR_kwDODeTEy84z-aw5",
+      "title": "Add test vectors for basic issuance",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/101",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #93.\r\n\r\ncc @tfpauly, @armfazh, @claucece ",
+      "createdAt": "2022-03-04T20:44:11Z",
+      "updatedAt": "2022-03-04T20:49:42Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "8056406cb686fed8f509c864cac895c1a6076967",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "caw/test-vectors",
+      "headRefOid": "51336450d55e900ec71f18472eec472c53505bc7",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy841r6k8",
+          "commit": {
+            "abbreviatedOid": "156b494"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-04T20:47:02Z",
+          "updatedAt": "2022-03-04T20:47:03Z",
+          "comments": [
+            {
+              "originalPosition": 22,
+              "body": "```suggestion\r\nThis is encoded and transmitted to the client in the following TokenResponse structure:\r\n```\r\n```suggestion\r\nThis is encoded an transmitted to the client in the following TokenResponse structure:\r\n```",
+              "createdAt": "2022-03-04T20:47:02Z",
+              "updatedAt": "2022-03-04T20:47:03Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy841r7El",
+          "commit": {
+            "abbreviatedOid": "5133645"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-03-04T20:49:42Z",
+          "updatedAt": "2022-03-04T20:49:42Z",
+          "comments": []
         }
       ]
     }
