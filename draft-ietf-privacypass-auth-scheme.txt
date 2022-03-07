@@ -506,9 +506,9 @@ Table of Contents
    [I-D.ietf-privacypass-architecture]
               Davidson, A., Iyengar, J., and C. A. Wood, "Privacy Pass
               Architectural Framework", Work in Progress, Internet-
-              Draft, draft-ietf-privacypass-architecture-02, 31 January
+              Draft, draft-ietf-privacypass-architecture-03, 7 March
               2022, <https://datatracker.ietf.org/doc/html/draft-ietf-
-              privacypass-architecture-02>.
+              privacypass-architecture-03>.
 
 Authors' Addresses
 
