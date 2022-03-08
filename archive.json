@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-03-06T01:03:14.150456+00:00",
+  "timestamp": "2022-03-08T01:02:45.002358+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1289,7 +1289,7 @@
       "id": "I_kwDODeTEy85DCLrG",
       "title": "Add issuance test vectors",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/93",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1300,8 +1300,8 @@
       ],
       "body": "These test vectors should cover the whole flow of the protocol, starting with the `TokenChallenge` input and producing a `Token` output.",
       "createdAt": "2022-02-04T21:46:44Z",
-      "updatedAt": "2022-02-09T22:58:26Z",
-      "closedAt": null,
+      "updatedAt": "2022-03-07T15:27:08Z",
+      "closedAt": "2022-03-07T15:27:08Z",
       "comments": []
     },
     {
@@ -7033,24 +7033,26 @@
       "id": "PR_kwDODeTEy84z-aw5",
       "title": "Add test vectors for basic issuance",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/101",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
-      "body": "Closes #93.\r\n\r\ncc @tfpauly, @armfazh, @claucece ",
+      "body": "Closes #93. Generated from [this PR](https://github.com/cloudflare/pat-go/pull/5).\r\n\r\ncc @tfpauly, @armfazh, @claucece ",
       "createdAt": "2022-03-04T20:44:11Z",
-      "updatedAt": "2022-03-04T20:49:42Z",
+      "updatedAt": "2022-03-07T15:27:09Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "8056406cb686fed8f509c864cac895c1a6076967",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "caw/test-vectors",
       "headRefOid": "51336450d55e900ec71f18472eec472c53505bc7",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-03-07T15:27:08Z",
+      "mergedAt": "2022-03-07T15:27:08Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "5f7ca4bd744afeb2f39d8d377a87b0498a153acd"
+      },
       "comments": [],
       "reviews": [
         {
