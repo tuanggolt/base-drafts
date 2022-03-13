@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-03-08T01:02:45.002358+00:00",
+  "timestamp": "2022-03-13T01:02:32.556530+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -52,6 +52,11 @@
       "name": "not-ready",
       "description": "",
       "color": "d93f0b"
+    },
+    {
+      "name": "auth-scheme",
+      "description": "",
+      "color": "0e8a16"
     }
   ],
   "issues": [
@@ -1354,6 +1359,63 @@
       "createdAt": "2022-02-11T07:09:05Z",
       "updatedAt": "2022-02-11T12:17:49Z",
       "closedAt": "2022-02-11T12:17:49Z",
+      "comments": []
+    },
+    {
+      "number": 102,
+      "id": "I_kwDODeTEy85FjQc4",
+      "title": "Challenge and cookie cache",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/102",
+      "state": "OPEN",
+      "author": "tfpauly",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "auth-scheme"
+      ],
+      "body": "From: https://github.com/tfpauly/privacy-proxy/issues/105\r\n\r\n@chris-wood said:\r\n> Servers can offer multiple challenges in a WWW-Authenticate header to let the client fetch a pile of tokens for future spending. For tracking reasons, the lifetime of these should be bound to any cookie state associated with the origin. In particular, if the client wipes its cookies for the origin, then it should also clear any challenge state. It's possible for the server to encode client-specific information in the TokenChallenge.redemption_nonce, so we need to ensure this doesn't turn into a different type of tracking vector.",
+      "createdAt": "2022-03-11T21:03:43Z",
+      "updatedAt": "2022-03-11T21:03:43Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 103,
+      "id": "I_kwDODeTEy85FjYzH",
+      "title": "Rename redemption_nonce to redemption_context",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/103",
+      "state": "OPEN",
+      "author": "tfpauly",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "tfpauly"
+      ],
+      "labels": [
+        "auth-scheme"
+      ],
+      "body": "We should consider renaming `redemption_nonce` to `redemption_context`. This value doesn't need to be a nonce, it's just some origin-selected context that it is binding to.\r\n\r\nWe can also rename the `context` in the Token struct to `challenge_digest` to make it clear what role it has.",
+      "createdAt": "2022-03-11T21:43:38Z",
+      "updatedAt": "2022-03-11T21:43:38Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 104,
+      "id": "I_kwDODeTEy85FjZAX",
+      "title": "Per-origin and cross-origin implications on double spend state",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/104",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "architecture",
+        "auth-scheme"
+      ],
+      "body": "Origins currently choose whether their challenges are per-origin or cross-origin. For cross-origin, double-spend prevention is only as good as the coordination between origins and the Issuer. Per-origin allows double-spend prevention to be isolated to a single origin; also prevents the cache of tokens being take up by some other origin.",
+      "createdAt": "2022-03-11T21:44:52Z",
+      "updatedAt": "2022-03-11T21:44:52Z",
+      "closedAt": null,
       "comments": []
     }
   ],
@@ -7087,6 +7149,65 @@
           "createdAt": "2022-03-04T20:49:42Z",
           "updatedAt": "2022-03-04T20:49:42Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 105,
+      "id": "PR_kwDODeTEy840U1i4",
+      "title": "Rename redemption_nonce to redemption_context",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/105",
+      "state": "OPEN",
+      "author": "tfpauly",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #103 ",
+      "createdAt": "2022-03-11T22:35:54Z",
+      "updatedAt": "2022-03-12T00:22:36Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "5f7ca4bd744afeb2f39d8d377a87b0498a153acd",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "tfp/redemption_context",
+      "headRefOid": "f5157d12f18ea33e92ea4ead16b74b2fad42d071",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy842HQnS",
+          "commit": {
+            "abbreviatedOid": "09cd643"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-03-11T23:01:46Z",
+          "updatedAt": "2022-03-11T23:03:35Z",
+          "comments": [
+            {
+              "originalPosition": 90,
+              "body": "```suggestion\r\nissuer and issuance protocol, and may be additionally bound to a specific context or origin name.\r\n```",
+              "createdAt": "2022-03-11T23:01:47Z",
+              "updatedAt": "2022-03-11T23:03:35Z"
+            },
+            {
+              "originalPosition": 115,
+              "body": "```suggestion\r\nto reusing tokens that were fetched for other contexts. When present, this value\r\n```",
+              "createdAt": "2022-03-11T23:02:04Z",
+              "updatedAt": "2022-03-11T23:03:35Z"
+            },
+            {
+              "originalPosition": 116,
+              "body": "```suggestion\r\nis a 32-byte context generated by the origin. This value can be a unique\r\n```\r\n\r\nIt doesn't need to be \"fresh\" since one can compute it deterministically.",
+              "createdAt": "2022-03-11T23:02:30Z",
+              "updatedAt": "2022-03-11T23:03:35Z"
+            }
+          ]
         }
       ]
     }
