@@ -5,14 +5,14 @@
 Network Working Group                                            S. Celi
 Internet-Draft                                                Cloudflare
 Intended status: Informational                               A. Davidson
-Expires: 8 September 2022                                 Brave Software
+Expires: 15 September 2022                                Brave Software
                                                         A. Faz-Hernandez
                                                               Cloudflare
                                                                S. Valdez
                                                               Google LLC
                                                               C. A. Wood
                                                               Cloudflare
-                                                            7 March 2022
+                                                           14 March 2022
 
 
                      Privacy Pass Issuance Protocol
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 8 September 2022.
+   This Internet-Draft will expire on 15 September 2022.
 
 Copyright Notice
 
@@ -334,8 +334,8 @@ Table of Contents
    struct {
        uint16_t token_type = 0x0001
        uint8_t nonce[32];
-       uint8_t context[32];
-       uint8_t key_id[32];
+       uint8_t challenge_digest[32];
+       uint8_t token_key_id[32];
        uint8_t authenticator[Nk];
    } Token;
 
@@ -485,8 +485,8 @@ Table of Contents
    struct {
        uint16_t token_type = 0x0002
        uint8_t nonce[32];
-       uint8_t context[32];
-       uint8_t key_id[32];
+       uint8_t challenge_digest[32];
+       uint8_t token_key_id[32];
        uint8_t authenticator[Nk];
    } Token;
 
