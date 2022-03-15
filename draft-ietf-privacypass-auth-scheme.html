@@ -1344,6 +1344,12 @@ WWW-Authenticate: PrivateToken challenge=abc..., token-key=123...,
 PrivateToken challenge=def..., token-key=234...
 </pre><a href="#section-2.1-15" class="pilcrow">¶</a>
 </div>
+<p id="section-2.1-16">If a Client fetches a batch of multiple tokens for future use that are bound
+to a specific redemption context (the redemption_context in the TokenChallenge
+was not empty), Clients SHOULD discard these tokens upon flushing state such as
+HTTP cookies <span>[<a href="#COOKIES" class="xref">COOKIES</a>]</span>, or changing networks.
+Using these tokens in a context that otherwise would not be linkable to the
+original context could allow the Origin to recognize a Client.<a href="#section-2.1-16" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="redemption">
@@ -1503,19 +1509,23 @@ party by another, as shown below.<a href="#section-5-1" class="pilcrow">¶</a></
         </figcaption></figure>
 </div>
 <p id="section-5-3">Context-bound token challenges require clients to obtain matching tokens when challenged,
-rather than presenting a token that was obtained in the past. This can make it more likely
-that issuance and redemption events will occur at approximately the same time. For example, if
-a client is challenged for a token with a unique context at time T1 and then subsequently obtains
-a token at time T2, a colluding issuer and origin can link this to the same client if
-T2 is unique to the client. This linkability is less feasible as the number of issuance
-events at time T2 increases. Depending on the "max-age" token challenge attribute,
-clients MAY try to augment the time between getting challenged then redeeming a token
-so as to make this sort of linkability more difficult. For more discussion on correlation risks between
-token issuance and redemption, see <span>[<a href="#I-D.ietf-privacypass-architecture" class="xref">I-D.ietf-privacypass-architecture</a>]</span>.<a href="#section-5-3" class="pilcrow">¶</a></p>
-<p id="section-5-4">Applications SHOULD constrain tokens to a single origin unless the use case can
-accommodate such replay attacks.<a href="#section-5-4" class="pilcrow">¶</a></p>
-<p id="section-5-5">All random values in the challenge and token MUST be generated using a cryptographically
-secure source of randomness.<a href="#section-5-5" class="pilcrow">¶</a></p>
+rather than presenting a token that was obtained from a different context in the past. This
+can make it more likely that issuance and redemption events will occur at approximately the
+same time. For example, if a client is challenged for a token with a unique context at
+time T1 and then subsequently obtains a token at time T2, a colluding issuer and origin can
+link this to the same client if T2 is unique to the client. This linkability is less
+feasible as the number of issuance events at time T2 increases. Depending on the "max-age"
+token challenge attribute, clients MAY try to augment the time between getting challenged
+then redeeming a token so as to make this sort of linkability more difficult. For more
+discussion on correlation risks between token issuance and redemption, see
+<span>[<a href="#I-D.ietf-privacypass-architecture" class="xref">I-D.ietf-privacypass-architecture</a>]</span>.<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-4">As discussed in <a href="#challenge" class="xref">Section 2.1</a>, clients SHOULD discard any context-bound tokens upon flushing
+cookies or changing networks, to prevent an Origin using the redemption context state as
+a cookie to recognize clients.<a href="#section-5-4" class="pilcrow">¶</a></p>
+<p id="section-5-5">Applications SHOULD constrain tokens to a single origin unless the use case can
+accommodate such replay attacks.<a href="#section-5-5" class="pilcrow">¶</a></p>
+<p id="section-5-6">All random values in the challenge and token MUST be generated using a cryptographically
+secure source of randomness.<a href="#section-5-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana">
@@ -1634,6 +1644,10 @@ so the maximum possible value is 0xFFFF = 65535.<a href="#section-6.2-1" class="
 <a href="#section-7.2" class="section-number selfRef">7.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="COOKIES">[COOKIES]</dt>
+        <dd>
+<span class="refAuthor">Chen, L.</span>, <span class="refAuthor">Englehardt, S.</span>, <span class="refAuthor">West, M.</span>, and <span class="refAuthor">J. Wilander</span>, <span class="refTitle">"Cookies: HTTP State Management Mechanism"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-httpbis-rfc6265bis-09</span>, <time datetime="2021-10-19" class="refDate">19 October 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis-09">https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis-09</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.ietf-privacypass-architecture">[I-D.ietf-privacypass-architecture]</dt>
       <dd>
 <span class="refAuthor">Davidson, A.</span>, <span class="refAuthor">Iyengar, J.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Privacy Pass Architectural Framework"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-privacypass-architecture-03</span>, <time datetime="2022-03-07" class="refDate">7 March 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-architecture-03">https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-architecture-03</a>&gt;</span>. </dd>
