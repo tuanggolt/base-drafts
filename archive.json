@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-03-15T01:07:30.561014+00:00",
+  "timestamp": "2022-03-17T01:05:13.031080+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1366,7 +1366,7 @@
       "id": "I_kwDODeTEy85FjQc4",
       "title": "Challenge and cookie cache",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/102",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tfpauly",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -1375,8 +1375,8 @@
       ],
       "body": "From: https://github.com/tfpauly/privacy-proxy/issues/105\r\n\r\n@chris-wood said:\r\n> Servers can offer multiple challenges in a WWW-Authenticate header to let the client fetch a pile of tokens for future spending. For tracking reasons, the lifetime of these should be bound to any cookie state associated with the origin. In particular, if the client wipes its cookies for the origin, then it should also clear any challenge state. It's possible for the server to encode client-specific information in the TokenChallenge.redemption_nonce, so we need to ensure this doesn't turn into a different type of tracking vector.",
       "createdAt": "2022-03-11T21:03:43Z",
-      "updatedAt": "2022-03-11T21:03:43Z",
-      "closedAt": null,
+      "updatedAt": "2022-03-15T20:15:16Z",
+      "closedAt": "2022-03-15T20:15:16Z",
       "comments": []
     },
     {
@@ -7224,6 +7224,151 @@
           "body": "",
           "createdAt": "2022-03-14T15:04:30Z",
           "updatedAt": "2022-03-14T15:04:30Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 106,
+      "id": "PR_kwDODeTEy840d7vV",
+      "title": "Explain length field in TokenChallenge",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/106",
+      "state": "MERGED",
+      "author": "tfpauly",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "tfpauly"
+      ],
+      "labels": [
+        "auth-scheme"
+      ],
+      "body": "For anyone unfamiliar with TLS struct notation, spell out the length fields in the text.",
+      "createdAt": "2022-03-15T14:40:07Z",
+      "updatedAt": "2022-03-15T15:19:56Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "079d020a283ff89e2ede31084574560b7faf245f",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "tfpauly-patch-1",
+      "headRefOid": "d266e192ca4639808714f3a3617039627312dcb8",
+      "closedAt": "2022-03-15T15:19:56Z",
+      "mergedAt": "2022-03-15T15:19:56Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "53aad1254dfd127e8200824423b07d8ecfd1df7f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy842QmaW",
+          "commit": {
+            "abbreviatedOid": "d161f9c"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-15T14:40:57Z",
+          "updatedAt": "2022-03-15T14:40:58Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "```suggestion\r\nnon-origin-specific token can be redeemed.\r\n```",
+              "createdAt": "2022-03-15T14:40:57Z",
+              "updatedAt": "2022-03-15T14:40:58Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy842Qn5b",
+          "commit": {
+            "abbreviatedOid": "d266e19"
+          },
+          "author": "dvorak42",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-03-15T14:44:34Z",
+          "updatedAt": "2022-03-15T14:44:34Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDODeTEy842Q2V6",
+          "commit": {
+            "abbreviatedOid": "d266e19"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-03-15T15:19:51Z",
+          "updatedAt": "2022-03-15T15:19:51Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 107,
+      "id": "PR_kwDODeTEy840eCYr",
+      "title": "Explain when to flush context-bound tokens",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/107",
+      "state": "MERGED",
+      "author": "tfpauly",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "tfpauly"
+      ],
+      "labels": [
+        "auth-scheme"
+      ],
+      "body": "Closes #102",
+      "createdAt": "2022-03-15T15:03:54Z",
+      "updatedAt": "2022-03-15T20:15:16Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "079d020a283ff89e2ede31084574560b7faf245f",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "tfpauly-patch-2",
+      "headRefOid": "0124db3aaeb98fcac1682ceda405fa598ac8114f",
+      "closedAt": "2022-03-15T20:15:16Z",
+      "mergedAt": "2022-03-15T20:15:16Z",
+      "mergedBy": "tfpauly",
+      "mergeCommit": {
+        "oid": "8e2999c4b16b23ce3903a1b4ac7e882de6f338fa"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy842QwvW",
+          "commit": {
+            "abbreviatedOid": "35f1029"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-15T15:05:48Z",
+          "updatedAt": "2022-03-15T15:05:50Z",
+          "comments": [
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\r\nUsing these tokens in a context that otherwise would not be linkable to the\r\noriginal context could allow the Origin to recognize a Client.\r\n\r\n```",
+              "createdAt": "2022-03-15T15:05:48Z",
+              "updatedAt": "2022-03-15T15:05:50Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy842RHyM",
+          "commit": {
+            "abbreviatedOid": "0124db3"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-03-15T16:03:27Z",
+          "updatedAt": "2022-03-15T16:03:27Z",
           "comments": []
         }
       ]
