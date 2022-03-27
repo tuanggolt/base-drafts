@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-03-17T01:05:13.031080+00:00",
+  "timestamp": "2022-03-27T01:13:55.884958+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1417,6 +1417,22 @@
       "body": "Origins currently choose whether their challenges are per-origin or cross-origin. For cross-origin, double-spend prevention is only as good as the coordination between origins and the Issuer. Per-origin allows double-spend prevention to be isolated to a single origin; also prevents the cache of tokens being take up by some other origin.",
       "createdAt": "2022-03-11T21:44:52Z",
       "updatedAt": "2022-03-14T18:08:29Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 108,
+      "id": "I_kwDODeTEy85GTRJb",
+      "title": "Consider including multiple origin names in TokenChallenge",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/108",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "From Ted Hardie in Vienna.",
+      "createdAt": "2022-03-24T12:35:11Z",
+      "updatedAt": "2022-03-24T12:35:11Z",
       "closedAt": null,
       "comments": []
     }
