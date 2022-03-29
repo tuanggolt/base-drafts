@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-03-27T01:13:55.884958+00:00",
+  "timestamp": "2022-03-29T01:15:00.255393+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1428,13 +1428,53 @@
       "state": "OPEN",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
-      "assignees": [],
-      "labels": [],
+      "assignees": [
+        "tfpauly"
+      ],
+      "labels": [
+        "auth-scheme"
+      ],
       "body": "From Ted Hardie in Vienna.",
       "createdAt": "2022-03-24T12:35:11Z",
-      "updatedAt": "2022-03-24T12:35:11Z",
+      "updatedAt": "2022-03-28T19:24:57Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "body": "We should also clarify more explicitly how the client uses the origin name field for validating the context it is in.",
+          "createdAt": "2022-03-28T19:13:23Z",
+          "updatedAt": "2022-03-28T19:13:23Z"
+        },
+        {
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Leaning towards allowing the `origin_name` being able to be a list of hostnames, with comma separation.",
+          "createdAt": "2022-03-28T19:17:13Z",
+          "updatedAt": "2022-03-28T19:17:13Z"
+        },
+        {
+          "author": "smhendrickson",
+          "authorAssociation": "CONTRIBUTOR",
+          "body": "+1 to csv. We think this keeps the client impl's simple while allowing for the added flexibility of origin sets.",
+          "createdAt": "2022-03-28T19:17:52Z",
+          "updatedAt": "2022-03-28T19:17:52Z"
+        },
+        {
+          "author": "richsalz",
+          "authorAssociation": "NONE",
+          "body": "Might also have to say something about ignoring whitespace `a,b` vs `a, b` and then maybe just whitespace is the separator?\r\n",
+          "createdAt": "2022-03-28T19:23:50Z",
+          "updatedAt": "2022-03-28T19:23:50Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "While I can understand the appeal, I'm not yet convinced we should do this until we have a use case and have thought through the possible privacy impacts.",
+          "createdAt": "2022-03-28T19:24:56Z",
+          "updatedAt": "2022-03-28T19:24:56Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -7388,6 +7428,36 @@
           "comments": []
         }
       ]
+    },
+    {
+      "number": 109,
+      "id": "PR_kwDODeTEy841Lk-L",
+      "title": "Support multiple origin names",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/109",
+      "state": "OPEN",
+      "author": "tfpauly",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "tfpauly"
+      ],
+      "labels": [
+        "auth-scheme"
+      ],
+      "body": "Closes #108 ",
+      "createdAt": "2022-03-28T19:58:09Z",
+      "updatedAt": "2022-03-28T19:59:04Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "8e2999c4b16b23ce3903a1b4ac7e882de6f338fa",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "tfp/multiple-origin-names",
+      "headRefOid": "8b3898ded0cbca714143fdd35e500fc26eb83bb9",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
     }
   ]
 }
