@@ -1021,7 +1021,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Pauly, et al.</td>
-<td class="center">Expires 29 September 2022</td>
+<td class="center">Expires 1 October 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1034,12 +1034,12 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <dd class="internet-draft">draft-ietf-privacypass-auth-scheme</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-03-28" class="published">28 March 2022</time>
+<time datetime="2022-03-30" class="published">30 March 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-09-29">29 September 2022</time></dd>
+<dd class="expires"><time datetime="2022-10-01">1 October 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1083,7 +1083,7 @@ challenge clients to present an acceptable Privacy Pass token.<a href="#section-
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 29 September 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 1 October 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1335,10 +1335,12 @@ WWW-Authenticate: PrivateToken challenge=abc..., token-key=123...
 issuance protocol indicated by the token_type. If the TokenChallenge has a
 token_type the client does not recognize or support, it MUST NOT parse or
 respond to the challenge. If the TokenChallenge contains a non-empty
-origin_info field, the client SHOULD validate that the name of the origin
+origin_info field, the client MUST validate that the name of the origin
 that issued the authentication challenge is included in the list of origin
 names. Clients MAY have further restrictions and requirements around
-validating when a challenge is considered acceptable or valid.<a href="#section-2.1-12" class="pilcrow">¶</a></p>
+validating when a challenge is considered acceptable or valid. For example,
+clients can choose to reject challenges that list origin names for which
+current connection is not authoritative (according to the TLS certificate).<a href="#section-2.1-12" class="pilcrow">¶</a></p>
 <p id="section-2.1-13">Note that it is possible for the WWW-Authenticate header to include multiple
 challenges, in order to allow the client to fetch a batch of multiple tokens
 for future use.<a href="#section-2.1-13" class="pilcrow">¶</a></p>
@@ -1513,7 +1515,18 @@ party by another, as shown below.<a href="#section-5-1" class="pilcrow">¶</a></
 <a href="#name-token-architectural-componen" class="selfRef">Token Architectural Components</a>
         </figcaption></figure>
 </div>
-<p id="section-5-3">Context-bound token challenges require clients to obtain matching tokens when challenged,
+<p id="section-5-3">Token challenges that include non-empty origin_info bind tokens to one or more specific
+origins. As described in <a href="#challenge" class="xref">Section 2.1</a>, clients only accept such challenges from
+origin names listed in the origin_info string. Even if multiple origins are listed, a
+token can only be redeemed for an origin if the challenge has an exact match for
+the origin_info. For example, if "a.example.com" issues a challenge with an origin_info
+string of "a.example.com,b.example.com", a client could redeem a token fetched for this
+challenge if and only if "b.example.com" also included an origin_info string of
+"a.example.com,b.example.com". On the other hand, if "b.example.com" had an origin_info
+string of "b.example.com" or "b.example.com,a.example.com" or
+"a.example.com,b.example.com,c.example.com", the string would not match and the client
+would need to use a different token.<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-4">Context-bound token challenges require clients to obtain matching tokens when challenged,
 rather than presenting a token that was obtained from a different context in the past. This
 can make it more likely that issuance and redemption events will occur at approximately the
 same time. For example, if a client is challenged for a token with a unique context at
@@ -1523,14 +1536,14 @@ feasible as the number of issuance events at time T2 increases. Depending on the
 token challenge attribute, clients MAY try to augment the time between getting challenged
 then redeeming a token so as to make this sort of linkability more difficult. For more
 discussion on correlation risks between token issuance and redemption, see
-<span>[<a href="#I-D.ietf-privacypass-architecture" class="xref">I-D.ietf-privacypass-architecture</a>]</span>.<a href="#section-5-3" class="pilcrow">¶</a></p>
-<p id="section-5-4">As discussed in <a href="#challenge" class="xref">Section 2.1</a>, clients SHOULD discard any context-bound tokens upon flushing
+<span>[<a href="#I-D.ietf-privacypass-architecture" class="xref">I-D.ietf-privacypass-architecture</a>]</span>.<a href="#section-5-4" class="pilcrow">¶</a></p>
+<p id="section-5-5">As discussed in <a href="#challenge" class="xref">Section 2.1</a>, clients SHOULD discard any context-bound tokens upon flushing
 cookies or changing networks, to prevent an origin using the redemption context state as
-a cookie to recognize clients.<a href="#section-5-4" class="pilcrow">¶</a></p>
-<p id="section-5-5">Applications SHOULD constrain tokens to a single origin unless the use case can
-accommodate such replay attacks.<a href="#section-5-5" class="pilcrow">¶</a></p>
-<p id="section-5-6">All random values in the challenge and token MUST be generated using a cryptographically
-secure source of randomness.<a href="#section-5-6" class="pilcrow">¶</a></p>
+a cookie to recognize clients.<a href="#section-5-5" class="pilcrow">¶</a></p>
+<p id="section-5-6">Applications SHOULD constrain tokens to a single origin unless the use case can
+accommodate such replay attacks.<a href="#section-5-6" class="pilcrow">¶</a></p>
+<p id="section-5-7">All random values in the challenge and token MUST be generated using a cryptographically
+secure source of randomness.<a href="#section-5-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana">
