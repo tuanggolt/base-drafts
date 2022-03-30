@@ -1266,7 +1266,7 @@ token to the origin (<a href="#redemption" class="xref">Section 2.2</a>).<a href
         <h3 id="name-token-challenge">
 <a href="#section-2.1" class="section-number selfRef">2.1. </a><a href="#name-token-challenge" class="section-name selfRef">Token Challenge</a>
         </h3>
-<p id="section-2.1-1">Origins send a token challenge to Clients in an "WWW-Authenticate" header with
+<p id="section-2.1-1">Origins send a token challenge to clients in an "WWW-Authenticate" header with
 the "PrivateToken" scheme. This challenge includes a TokenChallenge message,
 along with information about what keys to use when requesting a token from
 the issuer.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
@@ -1277,7 +1277,7 @@ struct {
     uint16_t token_type;
     opaque issuer_name&lt;1..2^16-1&gt;;
     opaque redemption_context&lt;0..32&gt;;
-    opaque origin_name&lt;0..2^16-1&gt;;
+    opaque origin_info&lt;0..2^16-1&gt;;
 } TokenChallenge;
 </pre><a href="#section-2.1-3" class="pilcrow">¶</a>
 </div>
@@ -1302,10 +1302,11 @@ either 0 or 32 bytes. The field is prefixed with a single octet indicating the
 length. Challenges with redemption_context values of invalid lengths MUST be
 ignored.<a href="#section-2.1-5.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.1-5.4">"origin_name" is an optional string containing the name of the origin, which
-allows a token to be scoped to a specific origin. The string is prefixed with a
-2-octet integer indicating the length, in network byte order. If empty, any
-non-origin-specific token can be redeemed.<a href="#section-2.1-5.4" class="pilcrow">¶</a>
+          <li class="normal" id="section-2.1-5.4">"origin_info" is an optional string containing one or more origin names, which
+allows a token to be scoped to a specific set of origins. The string is prefixed
+with a 2-octet integer indicating the length, in network byte order. If empty, any
+non-origin-specific token can be redeemed. If the string contains multiple
+origin names, they are delimited with commas "," without any whitespace.<a href="#section-2.1-5.4" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-2.1-6">When used in an authentication challenge, the "PrivateToken" scheme uses the
@@ -1323,11 +1324,11 @@ be omitted in deployments where clients are able to retrieve the issuer key usin
 an out-of-band mechanism.<a href="#section-2.1-7.2" class="pilcrow">¶</a>
 </li>
           <li class="normal" id="section-2.1-7.3">"max-age", an optional attribute that consists of the number of seconds for which
-the challenge will be accepted by the Origin.<a href="#section-2.1-7.3" class="pilcrow">¶</a>
+the challenge will be accepted by the origin.<a href="#section-2.1-7.3" class="pilcrow">¶</a>
 </li>
         </ul>
 <p id="section-2.1-8">Clients can ignore the challenge if the token-key is invalid or otherwise untrusted.<a href="#section-2.1-8" class="pilcrow">¶</a></p>
-<p id="section-2.1-9">Origins MAY also include the standard "realm" attribute, if desired. Issuance protocols
+<p id="section-2.1-9">The header MAY also include the standard "realm" attribute, if desired. Issuance protocols
 MAY require other attributes.<a href="#section-2.1-9" class="pilcrow">¶</a></p>
 <p id="section-2.1-10">As an example, the WWW-Authenticate header could look like this:<a href="#section-2.1-10" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-2.1-11">
@@ -1338,9 +1339,15 @@ WWW-Authenticate: PrivateToken challenge=abc..., token-key=123...
 <p id="section-2.1-12">Upon receipt of this challenge, a client uses the message and keys in the
 issuance protocol indicated by the token_type. If the TokenChallenge has a
 token_type the client does not recognize or support, it MUST NOT parse or
-respond to the challenge.<a href="#section-2.1-12" class="pilcrow">¶</a></p>
+respond to the challenge. If the TokenChallenge contains a non-empty
+origin_info field, the client MUST validate that the name of the origin
+that issued the authentication challenge is included in the list of origin
+names. Clients MAY have further restrictions and requirements around
+validating when a challenge is considered acceptable or valid. For example,
+clients can choose to reject challenges that list origin names for which
+current connection is not authoritative (according to the TLS certificate).<a href="#section-2.1-12" class="pilcrow">¶</a></p>
 <p id="section-2.1-13">Note that it is possible for the WWW-Authenticate header to include multiple
-challenges, in order to allow the Client to fetch a batch of multiple tokens
+challenges, in order to allow the client to fetch a batch of multiple tokens
 for future use.<a href="#section-2.1-13" class="pilcrow">¶</a></p>
 <p id="section-2.1-14">For example, the WWW-Authenticate header could look like this:<a href="#section-2.1-14" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-2.1-15">
@@ -1349,12 +1356,12 @@ WWW-Authenticate: PrivateToken challenge=abc..., token-key=123...,
 PrivateToken challenge=def..., token-key=234...
 </pre><a href="#section-2.1-15" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1-16">If a Client fetches a batch of multiple tokens for future use that are bound
+<p id="section-2.1-16">If a client fetches a batch of multiple tokens for future use that are bound
 to a specific redemption context (the redemption_context in the TokenChallenge
-was not empty), Clients SHOULD discard these tokens upon flushing state such as
+was not empty), clients SHOULD discard these tokens upon flushing state such as
 HTTP cookies <span>[<a href="#COOKIES" class="xref">COOKIES</a>]</span>, or changing networks.
 Using these tokens in a context that otherwise would not be linkable to the
-original context could allow the Origin to recognize a Client.<a href="#section-2.1-16" class="pilcrow">¶</a></p>
+original context could allow the origin to recognize a client.<a href="#section-2.1-16" class="pilcrow">¶</a></p>
 <div id="context-construction">
 <section id="section-2.1.1">
           <h4 id="name-redemption-context-construc">
@@ -1428,7 +1435,7 @@ scheme defines one parameter, "token", which contains the base64url-encoded
 Token struct. Since the length of the Token struct is not fixed, the base64url
 data MUST include padding. All unknown or unsupported parameters to "PrivateToken"
 authentication credentials MUST be ignored.<a href="#section-2.2-6" class="pilcrow">¶</a></p>
-<p id="section-2.2-7">Clients present this Token structure to Origins in a new HTTP request using
+<p id="section-2.2-7">Clients present this Token structure to origins in a new HTTP request using
 the Authorization header as follows:<a href="#section-2.2-7" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-2.2-8">
 <pre>
@@ -1537,7 +1544,18 @@ party by another, as shown below.<a href="#section-5-1" class="pilcrow">¶</a></
 <a href="#name-token-architectural-componen" class="selfRef">Token Architectural Components</a>
         </figcaption></figure>
 </div>
-<p id="section-5-3">Context-bound token challenges require clients to obtain matching tokens when challenged,
+<p id="section-5-3">Token challenges that include non-empty origin_info bind tokens to one or more specific
+origins. As described in <a href="#challenge" class="xref">Section 2.1</a>, clients only accept such challenges from
+origin names listed in the origin_info string. Even if multiple origins are listed, a
+token can only be redeemed for an origin if the challenge has an exact match for
+the origin_info. For example, if "a.example.com" issues a challenge with an origin_info
+string of "a.example.com,b.example.com", a client could redeem a token fetched for this
+challenge if and only if "b.example.com" also included an origin_info string of
+"a.example.com,b.example.com". On the other hand, if "b.example.com" had an origin_info
+string of "b.example.com" or "b.example.com,a.example.com" or
+"a.example.com,b.example.com,c.example.com", the string would not match and the client
+would need to use a different token.<a href="#section-5-3" class="pilcrow">¶</a></p>
+<p id="section-5-4">Context-bound token challenges require clients to obtain matching tokens when challenged,
 rather than presenting a token that was obtained from a different context in the past. This
 can make it more likely that issuance and redemption events will occur at approximately the
 same time. For example, if a client is challenged for a token with a unique context at
@@ -1547,14 +1565,14 @@ feasible as the number of issuance events at time T2 increases. Depending on the
 token challenge attribute, clients MAY try to augment the time between getting challenged
 then redeeming a token so as to make this sort of linkability more difficult. For more
 discussion on correlation risks between token issuance and redemption, see
-<span>[<a href="#I-D.ietf-privacypass-architecture" class="xref">I-D.ietf-privacypass-architecture</a>]</span>.<a href="#section-5-3" class="pilcrow">¶</a></p>
-<p id="section-5-4">As discussed in <a href="#challenge" class="xref">Section 2.1</a>, clients SHOULD discard any context-bound tokens upon flushing
-cookies or changing networks, to prevent an Origin using the redemption context state as
-a cookie to recognize clients.<a href="#section-5-4" class="pilcrow">¶</a></p>
-<p id="section-5-5">Applications SHOULD constrain tokens to a single origin unless the use case can
-accommodate such replay attacks.<a href="#section-5-5" class="pilcrow">¶</a></p>
-<p id="section-5-6">All random values in the challenge and token MUST be generated using a cryptographically
-secure source of randomness.<a href="#section-5-6" class="pilcrow">¶</a></p>
+<span>[<a href="#I-D.ietf-privacypass-architecture" class="xref">I-D.ietf-privacypass-architecture</a>]</span>.<a href="#section-5-4" class="pilcrow">¶</a></p>
+<p id="section-5-5">As discussed in <a href="#challenge" class="xref">Section 2.1</a>, clients SHOULD discard any context-bound tokens upon flushing
+cookies or changing networks, to prevent an origin using the redemption context state as
+a cookie to recognize clients.<a href="#section-5-5" class="pilcrow">¶</a></p>
+<p id="section-5-6">Applications SHOULD constrain tokens to a single origin unless the use case can
+accommodate such replay attacks.<a href="#section-5-6" class="pilcrow">¶</a></p>
+<p id="section-5-7">All random values in the challenge and token MUST be generated using a cryptographically
+secure source of randomness.<a href="#section-5-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="iana">
