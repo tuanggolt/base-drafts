@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-03-29T01:15:00.255393+00:00",
+  "timestamp": "2022-03-31T01:13:35.389673+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1425,7 +1425,7 @@
       "id": "I_kwDODeTEy85GTRJb",
       "title": "Consider including multiple origin names in TokenChallenge",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/108",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -1436,8 +1436,8 @@
       ],
       "body": "From Ted Hardie in Vienna.",
       "createdAt": "2022-03-24T12:35:11Z",
-      "updatedAt": "2022-03-28T19:24:57Z",
-      "closedAt": null,
+      "updatedAt": "2022-03-30T21:33:59Z",
+      "closedAt": "2022-03-30T21:33:59Z",
       "comments": [
         {
           "author": "tfpauly",
@@ -7434,7 +7434,7 @@
       "id": "PR_kwDODeTEy841Lk-L",
       "title": "Support multiple origin names",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/109",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "tfpauly",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -7445,19 +7445,218 @@
       ],
       "body": "Closes #108 ",
       "createdAt": "2022-03-28T19:58:09Z",
-      "updatedAt": "2022-03-28T19:59:04Z",
+      "updatedAt": "2022-03-30T21:33:59Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "8e2999c4b16b23ce3903a1b4ac7e882de6f338fa",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "tfp/multiple-origin-names",
-      "headRefOid": "8b3898ded0cbca714143fdd35e500fc26eb83bb9",
+      "headRefOid": "976e492ffa2a4c0f76fda9c0dc219a3e338247d2",
+      "closedAt": "2022-03-30T21:33:59Z",
+      "mergedAt": "2022-03-30T21:33:59Z",
+      "mergedBy": "tfpauly",
+      "mergeCommit": {
+        "oid": "247cf93f20be88029fa733cffe773300b40da9fa"
+      },
+      "comments": [
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@dvorak42 please have a look!",
+          "createdAt": "2022-03-30T16:30:36Z",
+          "updatedAt": "2022-03-30T16:30:36Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy843Nqbe",
+          "commit": {
+            "abbreviatedOid": "8b3898d"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2022-03-30T15:34:05Z",
+          "updatedAt": "2022-03-30T15:36:42Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "```suggestion\r\norigin_info field, the client MUST validate that the name of the origin\r\nthat issued the authentication challenge is included in the list of origin\r\nnames. Clients MAY have further restrictions and requirements around\r\nvalidating when a challenge is considered acceptable or valid. For example,\r\nclients can choose to reject challenges that list origin names for which \r\ncurrent connection is not authoritative (according to the TLS certificate).\r\n```\r\n\r\nI don't think a SHOULD is strong enough here. If it's not required, then a client can skip this step, and an origin could abuse it to probe the client for tokens issued to other origins of its choosing. For example:\r\n\r\n- Client visits A.com, gets two token challenges that specify A.com in origin_info, and gets two tokens.\r\n- Client visits B.com, which challenges the client for an A.com token, and it happily redeems the A.com token.\r\n\r\nThis is not the same as a cross-origin token, since no origin name is specified there.",
+              "createdAt": "2022-03-30T15:34:05Z",
+              "updatedAt": "2022-03-30T15:36:42Z"
+            },
+            {
+              "originalPosition": 57,
+              "body": "Also, in moving to a MUST, we should add text to the security considerations which explain why this effectively means origins must \"cross sign\" each other (by using the same origin_info) in order for tokens to be spent across origins.",
+              "createdAt": "2022-03-30T15:36:39Z",
+              "updatedAt": "2022-03-30T15:36:42Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy843N9pk",
+          "commit": {
+            "abbreviatedOid": "8b3898d"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-03-30T16:28:27Z",
+          "updatedAt": "2022-03-30T16:28:28Z",
+          "comments": [
+            {
+              "originalPosition": 57,
+              "body": "@chris-wood added text to security considerations, please check",
+              "createdAt": "2022-03-30T16:28:28Z",
+              "updatedAt": "2022-03-30T16:28:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy843N-CF",
+          "commit": {
+            "abbreviatedOid": "976e492"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "\ud83c\udf89 perfect!",
+          "createdAt": "2022-03-30T16:29:38Z",
+          "updatedAt": "2022-03-30T16:29:38Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDODeTEy843O-hA",
+          "commit": {
+            "abbreviatedOid": "976e492"
+          },
+          "author": "dvorak42",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-03-30T20:18:29Z",
+          "updatedAt": "2022-03-30T20:18:29Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 110,
+      "id": "PR_kwDODeTEy841Uv_Z",
+      "title": "Include examples for context construction",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/110",
+      "state": "MERGED",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Based on examples from IETF 113. ",
+      "createdAt": "2022-03-30T16:03:05Z",
+      "updatedAt": "2022-03-30T16:30:22Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "8e2999c4b16b23ce3903a1b4ac7e882de6f338fa",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "caw/context-examples",
+      "headRefOid": "dcfa10960b646d7c3acb555f6b725cc2afb99cbc",
+      "closedAt": "2022-03-30T16:30:22Z",
+      "mergedAt": "2022-03-30T16:30:22Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "43938c89da2b087f6c60d1ee5e282abd090d5972"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy843N965",
+          "commit": {
+            "abbreviatedOid": "43cca89"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-03-30T16:29:16Z",
+          "updatedAt": "2022-03-30T16:29:39Z",
+          "comments": [
+            {
+              "originalPosition": 31,
+              "body": "```suggestion\r\n- Context bound to a given time window: Construct redemption context as\r\n```",
+              "createdAt": "2022-03-30T16:29:17Z",
+              "updatedAt": "2022-03-30T16:29:39Z"
+            },
+            {
+              "originalPosition": 33,
+              "body": "```suggestion\r\n- Context bound to a client location: Construct redemption context as\r\n```",
+              "createdAt": "2022-03-30T16:29:24Z",
+              "updatedAt": "2022-03-30T16:29:39Z"
+            },
+            {
+              "originalPosition": 35,
+              "body": "```suggestion\r\n- Context bound to a given time window and location: Construct redemption\r\n```",
+              "createdAt": "2022-03-30T16:29:34Z",
+              "updatedAt": "2022-03-30T16:29:39Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 111,
+      "id": "PR_kwDODeTEy841VaDc",
+      "title": "Revert back to VOPRF for basic private issuance",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/111",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "protocol"
+      ],
+      "body": "Since metadata can be bound to tokens via TokenChallenge.redemption_context, and the origin is ultimately the one who determines what metadata is supported, there's no more real need for the _issuer_ to supply this metadata. So let's go with the simpler VOPRF protocol instead!\r\n\r\nTest vectors generated from the code here: https://github.com/cloudflare/pat-go/pull/7\r\n\r\ncc @armfazh, @claucece, @dvorak42 ",
+      "createdAt": "2022-03-30T19:07:55Z",
+      "updatedAt": "2022-03-30T20:14:44Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "43938c89da2b087f6c60d1ee5e282abd090d5972",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "caw/back-to-voprf",
+      "headRefOid": "07e2de33a12ca555e502a78678af64a94a7b036a",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy843O0dL",
+          "commit": {
+            "abbreviatedOid": "07e2de3"
+          },
+          "author": "armfazh",
+          "authorAssociation": "CONTRIBUTOR",
+          "state": "APPROVED",
+          "body": "LGTM",
+          "createdAt": "2022-03-30T19:37:54Z",
+          "updatedAt": "2022-03-30T19:37:54Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDODeTEy843O9g9",
+          "commit": {
+            "abbreviatedOid": "07e2de3"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-03-30T20:14:29Z",
+          "updatedAt": "2022-03-30T20:14:29Z",
+          "comments": []
+        }
+      ]
     }
   ]
 }
