@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-03-31T01:13:35.389673+00:00",
+  "timestamp": "2022-04-03T01:16:59.140593+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -7654,6 +7654,48 @@
           "body": "",
           "createdAt": "2022-03-30T20:14:29Z",
           "updatedAt": "2022-03-30T20:14:29Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 112,
+      "id": "PR_kwDODeTEy841hFXa",
+      "title": "Move HTTP API to retired, align abbreviated names",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/112",
+      "state": "MERGED",
+      "author": "tfpauly",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Just some housekeeping",
+      "createdAt": "2022-04-01T22:33:57Z",
+      "updatedAt": "2022-04-01T23:15:20Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "247cf93f20be88029fa733cffe773300b40da9fa",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "tfp/cleanup",
+      "headRefOid": "7130c7bd327a5da29948c3e2163eff9413b33d9b",
+      "closedAt": "2022-04-01T23:15:20Z",
+      "mergedAt": "2022-04-01T23:15:19Z",
+      "mergedBy": "tfpauly",
+      "mergeCommit": {
+        "oid": "a5ad65f457fdf55cd133a9807454eb99ce671979"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy843ZrRL",
+          "commit": {
+            "abbreviatedOid": "7130c7b"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-04-01T23:03:54Z",
+          "updatedAt": "2022-04-01T23:03:54Z",
           "comments": []
         }
       ]
