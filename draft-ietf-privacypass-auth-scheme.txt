@@ -5,10 +5,10 @@
 Network Working Group                                           T. Pauly
 Internet-Draft                                                Apple Inc.
 Intended status: Standards Track                               S. Valdez
-Expires: 3 October 2022                                       Google LLC
+Expires: 6 October 2022                                       Google LLC
                                                               C. A. Wood
                                                               Cloudflare
-                                                            1 April 2022
+                                                            4 April 2022
 
 
               The Privacy Pass HTTP Authentication Scheme
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 3 October 2022.
+   This Internet-Draft will expire on 6 October 2022.
 
 Copyright Notice
 
@@ -59,6 +59,7 @@ Table of Contents
    2.  HTTP Authentication Scheme
      2.1.  Token Challenge
        2.1.1.  Redemption Context Construction
+       2.1.2.  Token Caching
      2.2.  Token Redemption
    3.  Issuance Protocol Requirements
    4.  User Interaction
@@ -157,6 +158,20 @@ Table of Contents
    TokenChallenge message, along with information about what keys to use
    when requesting a token from the issuer.
 
+   Origins that support this authentication scheme need to handle the
+   following tasks:
+
+   1.  Select which issuer to use, and configure the issuer name and
+       token-key to include in WWW-Authenticate challenges.
+
+   2.  Determine a redemption context construction to include in the
+       TokenChallenge, as discussed in Section 2.1.1.
+
+   3.  Select the origin information to include in the TokenChallenge.
+       This can be empty to allow fully cross-origin tokens, a single
+       origin name that matches the origin itself, or a list of origin
+       names containing the origin.
+
    The TokenChallenge message has the following structure:
 
    struct {
@@ -239,22 +254,16 @@ Table of Contents
    names for which current connection is not authoritative (according to
    the TLS certificate).
 
-   Note that it is possible for the WWW-Authenticate header to include
-   multiple challenges, in order to allow the client to fetch a batch of
-   multiple tokens for future use.
+   Caching and pre-fetching of tokens is discussed in Section 2.1.2.
 
-   For example, the WWW-Authenticate header could look like this:
+   Note that it is possible for the WWW-Authenticate header to include
+   multiple challenges.  This allows the origin to indicate support for
+   different token types, issuers, or to include multiple redemption
+   contexts.  For example, the WWW-Authenticate header could look like
+   this:
 
    WWW-Authenticate: PrivateToken challenge=abc..., token-key=123...,
    PrivateToken challenge=def..., token-key=234...
-
-   If a client fetches a batch of multiple tokens for future use that
-   are bound to a specific redemption context (the redemption_context in
-   the TokenChallenge was not empty), clients SHOULD discard these
-   tokens upon flushing state such as HTTP cookies [COOKIES], or
-   changing networks.  Using these tokens in a context that otherwise
-   would not be linkable to the original context could allow the origin
-   to recognize a client.
 
 2.1.1.  Redemption Context Construction
 
@@ -276,7 +285,37 @@ Table of Contents
       address prefix).
 
    An empty redemption context is not bound to any property of the
-   client session.
+   client session.  Preventing double spending on tokens requires the
+   origin to keep state associated with the redemption context.  The
+   size of this state varies based on the size of the redemption
+   context.  For example, double spend state for unique, per-request
+   redemption contexts does only needs to exist within the scope of the
+   request connection or session.  In contrast, double spend state for
+   empty redemption contexts must be stored and shared across all
+   requests until token-key expiration or rotation.
+
+2.1.2.  Token Caching
+
+   Clients can generate multiple tokens from a single TokenChallenge,
+   and cache them for future use.  This improves privacy by separating
+   the time of token issuance from the time of token redemption, and
+   also allows clients to avoid any overhead of receiving new tokens via
+   the issuance protocol.
+
+   Cached tokens can only be redeemed when they match all of the fields
+   in the TokenChallenge: token_type, issuer_name, redemption_context,
+   and origin_info.  Clients ought to store cached tokens based on all
+   of these fields, to avoid trying to redeem a token that does not
+   match.  Note that each token has a unique client nonce, which is sent
+   in token redemption (Section 2.2).
+
+   If a client fetches a batch of multiple tokens for future use that
+   are bound to a specific redemption context (the redemption_context in
+   the TokenChallenge was not empty), clients SHOULD discard these
+   tokens upon flushing state such as HTTP cookies [COOKIES], or
+   changing networks.  Using these tokens in a context that otherwise
+   would not be linkable to the original context could allow the origin
+   to recognize a client.
 
 2.2.  Token Redemption
 

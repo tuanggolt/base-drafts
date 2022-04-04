@@ -1021,7 +1021,7 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 </tr></thead>
 <tfoot><tr>
 <td class="left">Pauly, et al.</td>
-<td class="center">Expires 3 October 2022</td>
+<td class="center">Expires 6 October 2022</td>
 <td class="right">[Page]</td>
 </tr></tfoot>
 </table>
@@ -1034,12 +1034,12 @@ svg [stroke="fill"], svg [fill^="#fff"] {
 <dd class="internet-draft">draft-ietf-privacypass-auth-scheme</dd>
 <dt class="label-published">Published:</dt>
 <dd class="published">
-<time datetime="2022-04-01" class="published">1 April 2022</time>
+<time datetime="2022-04-04" class="published">4 April 2022</time>
     </dd>
 <dt class="label-intended-status">Intended Status:</dt>
 <dd class="intended-status">Standards Track</dd>
 <dt class="label-expires">Expires:</dt>
-<dd class="expires"><time datetime="2022-10-03">3 October 2022</time></dd>
+<dd class="expires"><time datetime="2022-10-06">6 October 2022</time></dd>
 <dt class="label-authors">Authors:</dt>
 <dd class="authors">
 <div class="author">
@@ -1083,7 +1083,7 @@ challenge clients to present an acceptable Privacy Pass token.<a href="#section-
         time. It is inappropriate to use Internet-Drafts as reference
         material or to cite them other than as "work in progress."<a href="#section-boilerplate.1-3" class="pilcrow">¶</a></p>
 <p id="section-boilerplate.1-4">
-        This Internet-Draft will expire on 3 October 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
+        This Internet-Draft will expire on 6 October 2022.<a href="#section-boilerplate.1-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="copyright">
@@ -1128,6 +1128,9 @@ challenge clients to present an acceptable Privacy Pass token.<a href="#section-
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.1">
                     <p id="section-toc.1-1.2.2.1.2.1.1" class="keepWithNext"><a href="#section-2.1.1" class="xref">2.1.1</a>.  <a href="#name-redemption-context-construc" class="xref">Redemption Context Construction</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.2.2.1.2.2">
+                    <p id="section-toc.1-1.2.2.1.2.2.1"><a href="#section-2.1.2" class="xref">2.1.2</a>.  <a href="#name-token-caching" class="xref">Token Caching</a></p>
 </li>
                 </ul>
 </li>
@@ -1270,8 +1273,22 @@ token to the origin (<a href="#redemption" class="xref">Section 2.2</a>).<a href
 the "PrivateToken" scheme. This challenge includes a TokenChallenge message,
 along with information about what keys to use when requesting a token from
 the issuer.<a href="#section-2.1-1" class="pilcrow">¶</a></p>
-<p id="section-2.1-2">The TokenChallenge message has the following structure:<a href="#section-2.1-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1-3">
+<p id="section-2.1-2">Origins that support this authentication scheme need to handle the following
+tasks:<a href="#section-2.1-2" class="pilcrow">¶</a></p>
+<ol start="1" type="1" class="normal type-1" id="section-2.1-3">
+<li id="section-2.1-3.1">Select which issuer to use, and configure the issuer name and token-key to
+include in WWW-Authenticate challenges.<a href="#section-2.1-3.1" class="pilcrow">¶</a>
+</li>
+          <li id="section-2.1-3.2">Determine a redemption context construction to include in the TokenChallenge, as
+discussed in <a href="#context-construction" class="xref">Section 2.1.1</a>.<a href="#section-2.1-3.2" class="pilcrow">¶</a>
+</li>
+          <li id="section-2.1-3.3">Select the origin information to include in the TokenChallenge. This can
+be empty to allow fully cross-origin tokens, a single origin name that
+matches the origin itself, or a list of origin names containing the origin.<a href="#section-2.1-3.3" class="pilcrow">¶</a>
+</li>
+        </ol>
+<p id="section-2.1-4">The TokenChallenge message has the following structure:<a href="#section-2.1-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1-5">
 <pre>
 struct {
     uint16_t token_type;
@@ -1279,64 +1296,64 @@ struct {
     opaque redemption_context&lt;0..32&gt;;
     opaque origin_info&lt;0..2^16-1&gt;;
 } TokenChallenge;
-</pre><a href="#section-2.1-3" class="pilcrow">¶</a>
+</pre><a href="#section-2.1-5" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1-4">The structure fields are defined as follows:<a href="#section-2.1-4" class="pilcrow">¶</a></p>
+<p id="section-2.1-6">The structure fields are defined as follows:<a href="#section-2.1-6" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.1-5.1">"token_type" is a 2-octet integer, in network byte order. This type indicates
+<li class="normal" id="section-2.1-7.1">"token_type" is a 2-octet integer, in network byte order. This type indicates
 the issuance protocol used to generate the token. Values are registered
 in an IANA registry, <a href="#token-types" class="xref">Section 6.2</a>. Challenges with unsupported token_type
-values MUST be ignored.<a href="#section-2.1-5.1" class="pilcrow">¶</a>
+values MUST be ignored.<a href="#section-2.1-7.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.1-5.2">"issuer_name" is a string containing the name of the issuer. This is a
+          <li class="normal" id="section-2.1-7.2">"issuer_name" is a string containing the name of the issuer. This is a
 hostname that is used to identify the issuer that is allowed to issue
 tokens that can be redeemed by this origin. The string is prefixed with a
-2-octet integer indicating the length, in network byte order.<a href="#section-2.1-5.2" class="pilcrow">¶</a>
+2-octet integer indicating the length, in network byte order.<a href="#section-2.1-7.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.1-5.3">"redemption_context" is an optional field. If present, it allows the origin
+          <li class="normal" id="section-2.1-7.3">"redemption_context" is an optional field. If present, it allows the origin
 to require that clients fetch tokens bound to a specific context, as opposed
 to reusing tokens that were fetched for other contexts. See <a href="#context-construction" class="xref">Section 2.1.1</a>
 for example contexts that might be useful in practice. When present, this value
 is a 32-byte context generated by the origin. Valid lengths for this field are
 either 0 or 32 bytes. The field is prefixed with a single octet indicating the
 length. Challenges with redemption_context values of invalid lengths MUST be
-ignored.<a href="#section-2.1-5.3" class="pilcrow">¶</a>
+ignored.<a href="#section-2.1-7.3" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.1-5.4">"origin_info" is an optional string containing one or more origin names, which
+          <li class="normal" id="section-2.1-7.4">"origin_info" is an optional string containing one or more origin names, which
 allows a token to be scoped to a specific set of origins. The string is prefixed
 with a 2-octet integer indicating the length, in network byte order. If empty, any
 non-origin-specific token can be redeemed. If the string contains multiple
-origin names, they are delimited with commas "," without any whitespace.<a href="#section-2.1-5.4" class="pilcrow">¶</a>
+origin names, they are delimited with commas "," without any whitespace.<a href="#section-2.1-7.4" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-2.1-6">When used in an authentication challenge, the "PrivateToken" scheme uses the
-following attributes:<a href="#section-2.1-6" class="pilcrow">¶</a></p>
+<p id="section-2.1-8">When used in an authentication challenge, the "PrivateToken" scheme uses the
+following attributes:<a href="#section-2.1-8" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-2.1-7.1">"challenge", which contains a base64url-encoded <span>[<a href="#RFC4648" class="xref">RFC4648</a>]</span> TokenChallenge
+<li class="normal" id="section-2.1-9.1">"challenge", which contains a base64url-encoded <span>[<a href="#RFC4648" class="xref">RFC4648</a>]</span> TokenChallenge
 value. Since the length of the challenge is not fixed, the base64url data MUST
 include padding. This MUST be unique for every 401 HTTP response to prevent
-replay attacks. This attribute is required for all challenges.<a href="#section-2.1-7.1" class="pilcrow">¶</a>
+replay attacks. This attribute is required for all challenges.<a href="#section-2.1-9.1" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.1-7.2">"token-key", which contains a base64url encoding of the public key for
+          <li class="normal" id="section-2.1-9.2">"token-key", which contains a base64url encoding of the public key for
 use with the issuance protocol indicated by the challenge. Since the length of
 the key is not fixed, the base64url data MUST include padding. This attribute MAY
 be omitted in deployments where clients are able to retrieve the issuer key using
-an out-of-band mechanism.<a href="#section-2.1-7.2" class="pilcrow">¶</a>
+an out-of-band mechanism.<a href="#section-2.1-9.2" class="pilcrow">¶</a>
 </li>
-          <li class="normal" id="section-2.1-7.3">"max-age", an optional attribute that consists of the number of seconds for which
-the challenge will be accepted by the origin.<a href="#section-2.1-7.3" class="pilcrow">¶</a>
+          <li class="normal" id="section-2.1-9.3">"max-age", an optional attribute that consists of the number of seconds for which
+the challenge will be accepted by the origin.<a href="#section-2.1-9.3" class="pilcrow">¶</a>
 </li>
         </ul>
-<p id="section-2.1-8">Clients can ignore the challenge if the token-key is invalid or otherwise untrusted.<a href="#section-2.1-8" class="pilcrow">¶</a></p>
-<p id="section-2.1-9">The header MAY also include the standard "realm" attribute, if desired. Issuance protocols
-MAY require other attributes.<a href="#section-2.1-9" class="pilcrow">¶</a></p>
-<p id="section-2.1-10">As an example, the WWW-Authenticate header could look like this:<a href="#section-2.1-10" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1-11">
+<p id="section-2.1-10">Clients can ignore the challenge if the token-key is invalid or otherwise untrusted.<a href="#section-2.1-10" class="pilcrow">¶</a></p>
+<p id="section-2.1-11">The header MAY also include the standard "realm" attribute, if desired. Issuance protocols
+MAY require other attributes.<a href="#section-2.1-11" class="pilcrow">¶</a></p>
+<p id="section-2.1-12">As an example, the WWW-Authenticate header could look like this:<a href="#section-2.1-12" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1-13">
 <pre>
 WWW-Authenticate: PrivateToken challenge=abc..., token-key=123...
-</pre><a href="#section-2.1-11" class="pilcrow">¶</a>
+</pre><a href="#section-2.1-13" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1-12">Upon receipt of this challenge, a client uses the message and keys in the
+<p id="section-2.1-14">Upon receipt of this challenge, a client uses the message and keys in the
 issuance protocol indicated by the token_type. If the TokenChallenge has a
 token_type the client does not recognize or support, it MUST NOT parse or
 respond to the challenge. If the TokenChallenge contains a non-empty
@@ -1345,23 +1362,18 @@ that issued the authentication challenge is included in the list of origin
 names. Clients MAY have further restrictions and requirements around
 validating when a challenge is considered acceptable or valid. For example,
 clients can choose to reject challenges that list origin names for which
-current connection is not authoritative (according to the TLS certificate).<a href="#section-2.1-12" class="pilcrow">¶</a></p>
-<p id="section-2.1-13">Note that it is possible for the WWW-Authenticate header to include multiple
-challenges, in order to allow the client to fetch a batch of multiple tokens
-for future use.<a href="#section-2.1-13" class="pilcrow">¶</a></p>
-<p id="section-2.1-14">For example, the WWW-Authenticate header could look like this:<a href="#section-2.1-14" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-2.1-15">
+current connection is not authoritative (according to the TLS certificate).<a href="#section-2.1-14" class="pilcrow">¶</a></p>
+<p id="section-2.1-15">Caching and pre-fetching of tokens is discussed in <a href="#caching" class="xref">Section 2.1.2</a>.<a href="#section-2.1-15" class="pilcrow">¶</a></p>
+<p id="section-2.1-16">Note that it is possible for the WWW-Authenticate header to include multiple
+challenges. This allows the origin to indicate support for different token
+types, issuers, or to include multiple redemption contexts. For example,
+the WWW-Authenticate header could look like this:<a href="#section-2.1-16" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-2.1-17">
 <pre>
 WWW-Authenticate: PrivateToken challenge=abc..., token-key=123...,
 PrivateToken challenge=def..., token-key=234...
-</pre><a href="#section-2.1-15" class="pilcrow">¶</a>
+</pre><a href="#section-2.1-17" class="pilcrow">¶</a>
 </div>
-<p id="section-2.1-16">If a client fetches a batch of multiple tokens for future use that are bound
-to a specific redemption context (the redemption_context in the TokenChallenge
-was not empty), clients SHOULD discard these tokens upon flushing state such as
-HTTP cookies <span>[<a href="#COOKIES" class="xref">COOKIES</a>]</span>, or changing networks.
-Using these tokens in a context that otherwise would not be linkable to the
-original context could allow the origin to recognize a client.<a href="#section-2.1-16" class="pilcrow">¶</a></p>
 <div id="context-construction">
 <section id="section-2.1.1">
           <h4 id="name-redemption-context-construc">
@@ -1383,7 +1395,35 @@ SHA256(client IP address prefix).<a href="#section-2.1.1-2.2" class="pilcrow">¶
 context as SHA256(current time window, client IP address prefix).<a href="#section-2.1.1-2.3" class="pilcrow">¶</a>
 </li>
           </ul>
-<p id="section-2.1.1-3">An empty redemption context is not bound to any property of the client session.<a href="#section-2.1.1-3" class="pilcrow">¶</a></p>
+<p id="section-2.1.1-3">An empty redemption context is not bound to any property of the client session.
+Preventing double spending on tokens requires the origin to keep state associated
+with the redemption context. The size of this state varies based on the size of the
+redemption context. For example, double spend state for unique, per-request redemption
+contexts does only needs to exist within the scope of the request connection or session.
+In contrast, double spend state for empty redemption contexts must be stored and shared
+across all requests until token-key expiration or rotation.<a href="#section-2.1.1-3" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="caching">
+<section id="section-2.1.2">
+          <h4 id="name-token-caching">
+<a href="#section-2.1.2" class="section-number selfRef">2.1.2. </a><a href="#name-token-caching" class="section-name selfRef">Token Caching</a>
+          </h4>
+<p id="section-2.1.2-1">Clients can generate multiple tokens from a single TokenChallenge, and cache
+them for future use. This improves privacy by separating the time of token
+issuance from the time of token redemption, and also allows clients to avoid
+any overhead of receiving new tokens via the issuance protocol.<a href="#section-2.1.2-1" class="pilcrow">¶</a></p>
+<p id="section-2.1.2-2">Cached tokens can only be redeemed when they match all of the fields in the
+TokenChallenge: token_type, issuer_name, redemption_context, and origin_info.
+Clients ought to store cached tokens based on all of these fields, to
+avoid trying to redeem a token that does not match. Note that each token
+has a unique client nonce, which is sent in token redemption (<a href="#redemption" class="xref">Section 2.2</a>).<a href="#section-2.1.2-2" class="pilcrow">¶</a></p>
+<p id="section-2.1.2-3">If a client fetches a batch of multiple tokens for future use that are bound
+to a specific redemption context (the redemption_context in the TokenChallenge
+was not empty), clients SHOULD discard these tokens upon flushing state such as
+HTTP cookies <span>[<a href="#COOKIES" class="xref">COOKIES</a>]</span>, or changing networks.
+Using these tokens in a context that otherwise would not be linkable to the
+original context could allow the origin to recognize a client.<a href="#section-2.1.2-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
