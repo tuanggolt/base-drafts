@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-04-03T01:16:59.140593+00:00",
+  "timestamp": "2022-04-05T01:13:33.736850+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1475,6 +1475,24 @@
           "updatedAt": "2022-03-28T19:24:56Z"
         }
       ]
+    },
+    {
+      "number": 113,
+      "id": "I_kwDODeTEy85HEA9B",
+      "title": "Look at greasing Client / Origin interactions",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/113",
+      "state": "OPEN",
+      "author": "tfpauly",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "auth-scheme"
+      ],
+      "body": "Origins can issue challenges for greased token types, etc, to ensure client can handle new types in the future.",
+      "createdAt": "2022-04-04T19:44:20Z",
+      "updatedAt": "2022-04-04T19:44:20Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
@@ -7697,6 +7715,71 @@
           "createdAt": "2022-04-01T23:03:54Z",
           "updatedAt": "2022-04-01T23:03:54Z",
           "comments": []
+        }
+      ]
+    },
+    {
+      "number": 114,
+      "id": "PR_kwDODeTEy841nGqF",
+      "title": "Editorial: describe origin and client behavior more clearly",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/114",
+      "state": "MERGED",
+      "author": "tfpauly",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "tfpauly"
+      ],
+      "labels": [
+        "auth-scheme"
+      ],
+      "body": "- Spell out origin steps more clearly\r\n- Split token caching into its own section\r\n\r\nI tried having an overall \"origin\" and \"client\" section, but it didn't flow as well.",
+      "createdAt": "2022-04-04T20:14:30Z",
+      "updatedAt": "2022-04-04T23:16:21Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "a5ad65f457fdf55cd133a9807454eb99ce671979",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "tfp/auth-scheme-editorial",
+      "headRefOid": "b75176428cbddc711a5e3a2c68b745cf3f103908",
+      "closedAt": "2022-04-04T23:16:21Z",
+      "mergedAt": "2022-04-04T23:16:21Z",
+      "mergedBy": "tfpauly",
+      "mergeCommit": {
+        "oid": "d6408e444427d01ced745cac17cf14f64701500f"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy843fdYi",
+          "commit": {
+            "abbreviatedOid": "fc0a5ee"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-04-04T21:55:29Z",
+          "updatedAt": "2022-04-04T22:00:25Z",
+          "comments": [
+            {
+              "originalPosition": 7,
+              "body": "```suggestion\r\n1. Select which issuer to use, and configure the issuer name and token-key to\r\n```\r\n\r\nFetch might make folks think of `fetch()`, whereas really this is a configuration task.",
+              "createdAt": "2022-04-04T21:55:30Z",
+              "updatedAt": "2022-04-04T22:00:25Z"
+            },
+            {
+              "originalPosition": 10,
+              "body": "```suggestion\r\n1. Determine a redemption context construction to include in the TokenChallenge, as\r\n```\r\n\r\nSelect made me think that the context value was done once for everyone, but I think the intent here was to say \"figure out how you'll build redemption contexts\"?",
+              "createdAt": "2022-04-04T21:56:22Z",
+              "updatedAt": "2022-04-04T22:00:25Z"
+            },
+            {
+              "originalPosition": 55,
+              "body": "```suggestion\r\nPreventing double spending on tokens requires the origin to keep state associated\r\nwith the redemption context. The size of this state varies based on the size of the\r\nredemption context. For example, double spend state for unique, per-request redemption\r\ncontexts does only needs to exist within the scope of the request connection or session.\r\nIn contrast, double spend state for empty redemption contexts must be stored and shared\r\nacross all requests until token-key expiration or rotation.\r\n```",
+              "createdAt": "2022-04-04T21:59:43Z",
+              "updatedAt": "2022-04-04T22:00:25Z"
+            }
+          ]
         }
       ]
     }
