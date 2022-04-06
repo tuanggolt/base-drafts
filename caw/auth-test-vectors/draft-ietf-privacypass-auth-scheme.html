@@ -1743,8 +1743,12 @@ so the maximum possible value is 0xFFFF = 65535.<a href="#section-6.2-1" class="
 <span class="refAuthor">Chen, L.</span>, <span class="refAuthor">Englehardt, S.</span>, <span class="refAuthor">West, M.</span>, and <span class="refAuthor">J. Wilander</span>, <span class="refTitle">"Cookies: HTTP State Management Mechanism"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-httpbis-rfc6265bis-09</span>, <time datetime="2021-10-19" class="refDate">19 October 2021</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis-09">https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-rfc6265bis-09</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ietf-privacypass-architecture">[I-D.ietf-privacypass-architecture]</dt>
-      <dd>
+        <dd>
 <span class="refAuthor">Davidson, A.</span>, <span class="refAuthor">Iyengar, J.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Privacy Pass Architectural Framework"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-privacypass-architecture-03</span>, <time datetime="2022-03-07" class="refDate">7 March 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-architecture-03">https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-architecture-03</a>&gt;</span>. </dd>
+<dd class="break"></dd>
+<dt id="ISSUANCE">[ISSUANCE]</dt>
+      <dd>
+<span class="refAuthor">Celi, S.</span>, <span class="refAuthor">Davidson, A.</span>, <span class="refAuthor">Faz-Hernandez, A.</span>, <span class="refAuthor">Valdez, S.</span>, and <span class="refAuthor">C. A. Wood</span>, <span class="refTitle">"Privacy Pass Issuance Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-privacypass-protocol-04</span>, <time datetime="2022-04-05" class="refDate">5 April 2022</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-protocol-04">https://datatracker.ietf.org/doc/html/draft-ietf-privacypass-protocol-04</a>&gt;</span>. </dd>
 <dd class="break"></dd>
 </dl>
 </section>
@@ -1757,7 +1761,8 @@ so the maximum possible value is 0xFFFF = 65535.<a href="#section-6.2-1" class="
 <p id="appendix-A-1">This section includes test vectors for the challenge and redemption functionalities
 described in <a href="#challenge" class="xref">Section 2.1</a> and <a href="#redemption" class="xref">Section 2.2</a>. Each test vector lists the following values:<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="appendix-A-2.1">token_type: The type of token issuance protocol, a value from <a href="#token-types" class="xref">Section 6.2</a>.<a href="#appendix-A-2.1" class="pilcrow">¶</a>
+<li class="normal" id="appendix-A-2.1">token_type: The type of token issuance protocol, a value from <a href="#token-types" class="xref">Section 6.2</a>. For these test vectors,
+token_type is 0x0002, corresponding to the issuance protocol in <span>[<a href="#ISSUANCE" class="xref">ISSUANCE</a>]</span>.<a href="#appendix-A-2.1" class="pilcrow">¶</a>
 </li>
         <li class="normal" id="appendix-A-2.2">issuer_name: The name of the issuer in the TokenChallenge structure, represented as a hexadecimal string.<a href="#appendix-A-2.2" class="pilcrow">¶</a>
 </li>
