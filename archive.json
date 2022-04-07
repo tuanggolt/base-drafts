@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-04-05T01:13:33.736850+00:00",
+  "timestamp": "2022-04-07T01:15:08.123539+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -7626,7 +7626,7 @@
       "id": "PR_kwDODeTEy841VaDc",
       "title": "Revert back to VOPRF for basic private issuance",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/111",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -7635,17 +7635,19 @@
       ],
       "body": "Since metadata can be bound to tokens via TokenChallenge.redemption_context, and the origin is ultimately the one who determines what metadata is supported, there's no more real need for the _issuer_ to supply this metadata. So let's go with the simpler VOPRF protocol instead!\r\n\r\nTest vectors generated from the code here: https://github.com/cloudflare/pat-go/pull/7\r\n\r\ncc @armfazh, @claucece, @dvorak42 ",
       "createdAt": "2022-03-30T19:07:55Z",
-      "updatedAt": "2022-03-30T20:14:44Z",
+      "updatedAt": "2022-04-05T13:15:50Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "43938c89da2b087f6c60d1ee5e282abd090d5972",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "caw/back-to-voprf",
       "headRefOid": "07e2de33a12ca555e502a78678af64a94a7b036a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-04-05T13:15:50Z",
+      "mergedAt": "2022-04-05T13:15:50Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "a7c0bd43c91fd7bed940d4076d95a58b4f0b051a"
+      },
       "comments": [],
       "reviews": [
         {
@@ -7780,6 +7782,112 @@
               "updatedAt": "2022-04-04T22:00:25Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 115,
+      "id": "PR_kwDODeTEy841veUT",
+      "title": "Remove issuance protocol requirements",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/115",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "These are covered in the architecture.",
+      "createdAt": "2022-04-06T15:16:02Z",
+      "updatedAt": "2022-04-06T15:16:08Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "a7c0bd43c91fd7bed940d4076d95a58b4f0b051a",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "caw/remove-issuance-requirements",
+      "headRefOid": "98d70c5e68a4317e414096f14bf0ff13f3fd24c8",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 116,
+      "id": "PR_kwDODeTEy841vhAh",
+      "title": "Add challenge and redemption test vectors",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/116",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "We could omit the authenticator value and just focus on how Token is constructed based on TokenChallenge, but it seems reasonable to include the authenticator so folks can also test that they're computing the token key ID correctly.\r\n\r\nGenerated from [this change](https://github.com/cloudflare/pat-go/pull/8).",
+      "createdAt": "2022-04-06T15:26:21Z",
+      "updatedAt": "2022-04-06T15:54:24Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "a7c0bd43c91fd7bed940d4076d95a58b4f0b051a",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "caw/auth-test-vectors",
+      "headRefOid": "a53d1cbe5c3a2f9d06ad35fdc7f52ea5054ba28f",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy843pvug",
+          "commit": {
+            "abbreviatedOid": "baf2043"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-04-06T15:29:18Z",
+          "updatedAt": "2022-04-06T15:29:19Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "Should we reference the protocol doc and specifically call out that these are for the RSA blind signature variant?",
+              "createdAt": "2022-04-06T15:29:18Z",
+              "updatedAt": "2022-04-06T15:29:19Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy843pwPR",
+          "commit": {
+            "abbreviatedOid": "baf2043"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-04-06T15:30:46Z",
+          "updatedAt": "2022-04-06T15:30:46Z",
+          "comments": [
+            {
+              "originalPosition": 39,
+              "body": "Done (but up above).",
+              "createdAt": "2022-04-06T15:30:46Z",
+              "updatedAt": "2022-04-06T15:30:46Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy843p4sa",
+          "commit": {
+            "abbreviatedOid": "a53d1cb"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-04-06T15:54:24Z",
+          "updatedAt": "2022-04-06T15:54:24Z",
+          "comments": []
         }
       ]
     }
