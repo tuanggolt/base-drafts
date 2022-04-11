@@ -61,15 +61,14 @@ Table of Contents
        2.1.1.  Redemption Context Construction
        2.1.2.  Token Caching
      2.2.  Token Redemption
-   3.  Issuance Protocol Requirements
-   4.  User Interaction
-   5.  Security Considerations
-   6.  IANA Considerations
-     6.1.  Authentication Scheme
-     6.2.  Token Type Registry
-   7.  References
-     7.1.  Normative References
-     7.2.  Informative References
+   3.  User Interaction
+   4.  Security Considerations
+   5.  IANA Considerations
+     5.1.  Authentication Scheme
+     5.2.  Token Type Registry
+   6.  References
+     6.1.  Normative References
+     6.2.  Informative References
    Appendix A.  Test Vectors
    Authors' Addresses
 
@@ -184,7 +183,7 @@ Table of Contents
 
    *  "token_type" is a 2-octet integer, in network byte order.  This
       type indicates the issuance protocol used to generate the token.
-      Values are registered in an IANA registry, Section 6.2.
+      Values are registered in an IANA registry, Section 5.2.
       Challenges with unsupported token_type values MUST be ignored.
 
    *  "issuer_name" is a string containing the name of the issuer.  This
@@ -382,30 +381,7 @@ Table of Contents
    If a client is unable to fetch a token, it MUST react to the
    challenge as if it could not produce a valid Authorization response.
 
-3.  Issuance Protocol Requirements
-
-   Clients initiate the issuance protocol using a challenge, a randomly
-   generated nonce, and a public key for the issuer.  The issuance
-   protocol itself can be any interactive protocol between client,
-   issuer, or other parties that produces a valid authenticator over the
-   client's input, subject to the following security requirements.
-
-   1.  Unconditional input secrecy.  The issuance protocol MUST NOT
-       reveal anything about the client's private input, including the
-       challenge and nonce.  The issuance protocol can reveal the issuer
-       public key for the purposes of determining which private key to
-       use in producing the issuance protocol.  A result of this
-       property is that the redemption flow is unlinkable from the
-       issuance flow.
-
-   2.  One-more forgery security.  The issuance protocol MUST NOT allow
-       malicious clients to forge tokens without interacting with the
-       issuer directly.
-
-   3.  Concurrent security.  The issuance protocol MUST be safe to run
-       concurrently with arbitrarily many clients.
-
-4.  User Interaction
+3.  User Interaction
 
    When used in contexts like websites, origins that challenge clients
    for tokens need to consider how to optimize their interaction model
@@ -440,7 +416,7 @@ Table of Contents
    to a different issuer or a different token type, to allow clients to
    choose a preferred issuer or type.
 
-5.  Security Considerations
+4.  Security Considerations
 
    The security properties of token challenges vary depending on whether
    the challenge contains a redemption context or not, as well as
@@ -501,9 +477,9 @@ Table of Contents
    All random values in the challenge and token MUST be generated using
    a cryptographically secure source of randomness.
 
-6.  IANA Considerations
+5.  IANA Considerations
 
-6.1.  Authentication Scheme
+5.1.  Authentication Scheme
 
    This document registers the "PrivateToken" authentication scheme in
    the "Hypertext Transfer Protocol (HTTP) Authentication Scheme
@@ -513,7 +489,7 @@ Table of Contents
 
    Pointer to specification text: Section 2 of this document
 
-6.2.  Token Type Registry
+5.2.  Token Type Registry
 
    The "Token Type" registry lists identifiers for issuance protocols
    defined for use with the Privacy Pass token authentication scheme.
@@ -554,9 +530,9 @@ Table of Contents
 
                             Table 1: Token Types
 
-7.  References
+6.  References
 
-7.1.  Normative References
+6.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -580,7 +556,7 @@ Table of Contents
               Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
               <https://www.rfc-editor.org/rfc/rfc8446>.
 
-7.2.  Informative References
+6.2.  Informative References
 
    [ARCHITECTURE]
               Davidson, A., Iyengar, J., and C. A. Wood, "Privacy Pass
@@ -616,7 +592,7 @@ Appendix A.  Test Vectors
    vector lists the following values:
 
    *  token_type: The type of token issuance protocol, a value from
-      Section 6.2.  For these test vectors, token_type is 0x0002,
+      Section 5.2.  For these test vectors, token_type is 0x0002,
       corresponding to the issuance protocol in [ISSUANCE].
 
    *  issuer_name: The name of the issuer in the TokenChallenge
