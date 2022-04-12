@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-04-07T01:15:08.123539+00:00",
+  "timestamp": "2022-04-12T01:17:42.345107+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1490,7 +1490,49 @@
       ],
       "body": "Origins can issue challenges for greased token types, etc, to ensure client can handle new types in the future.",
       "createdAt": "2022-04-04T19:44:20Z",
-      "updatedAt": "2022-04-04T19:44:20Z",
+      "updatedAt": "2022-04-11T19:20:06Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "One type of greasing might be adding random authentication credentials to the `Authorization` header, e.g., `Authorization: PrivacyToken foo=bar token=blah bar=baz`.",
+          "createdAt": "2022-04-11T19:20:06Z",
+          "updatedAt": "2022-04-11T19:20:06Z"
+        }
+      ]
+    },
+    {
+      "number": 117,
+      "id": "I_kwDODeTEy85HiYWM",
+      "title": "Don't require padding for base64url?",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/117",
+      "state": "OPEN",
+      "author": "punkeel",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I would like to challenge the following snippet in the RFC, especially the use of the word **MUST**.\r\n> \"challenge\", which contains a base64url-encoded {{!RFC4648}} TokenChallenge value. **Since the length of the challenge is not fixed, the base64url data MUST include padding.**\r\n\r\nBase 64 decoding does not require the padding to get the *exact* encoded value, bit-for-bit.\r\n\r\nFrom what I understand, issues arise when it's impossible to know the length of the encoded base64 payload, due to lack of delimiters. eg, if we encode `hello` and `world`, then concat them (without padding), this gives us:\r\n`aGVsbG8=` + `d29ybGQ=` == `aGVsbG8d29ybGQ` ==> `hello.\u00db\u00dc..`\r\n\r\nWhen the base64 length is fully known (thanks to delimiters like space or line breaks), this is a non-issue.\r\n\r\n\r\nMay I recommend that clients instead **MUST support** base64url encoding with and without padding?",
+      "createdAt": "2022-04-11T16:05:57Z",
+      "updatedAt": "2022-04-11T16:05:57Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 118,
+      "id": "I_kwDODeTEy85HjP_Z",
+      "title": "Explain consequences of using publicly verifiable token",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/118",
+      "state": "OPEN",
+      "author": "tfpauly",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "protocol"
+      ],
+      "body": "The publicly verifiable basic token issuance protocol doesn't include an origin name that the issuer can see, so it does allow origins to be able to use that issuer (as long as the know the key) without explicit coordination or permission from the issuer. This isn't necessarily a problem, but we should likely mention it.",
+      "createdAt": "2022-04-11T19:16:46Z",
+      "updatedAt": "2022-04-11T19:16:46Z",
       "closedAt": null,
       "comments": []
     }
@@ -7790,50 +7832,76 @@
       "id": "PR_kwDODeTEy841veUT",
       "title": "Remove issuance protocol requirements",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/115",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "These are covered in the architecture.",
       "createdAt": "2022-04-06T15:16:02Z",
-      "updatedAt": "2022-04-06T15:16:08Z",
+      "updatedAt": "2022-04-11T15:04:57Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "a7c0bd43c91fd7bed940d4076d95a58b4f0b051a",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "caw/remove-issuance-requirements",
       "headRefOid": "98d70c5e68a4317e414096f14bf0ff13f3fd24c8",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
-      "comments": [],
-      "reviews": []
+      "closedAt": "2022-04-11T15:04:57Z",
+      "mergedAt": "2022-04-11T15:04:57Z",
+      "mergedBy": "tfpauly",
+      "mergeCommit": {
+        "oid": "e67114b94229ae902c89f55ac5b07406b21c3a0f"
+      },
+      "comments": [
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Bump @tfpauly @dvorak42!",
+          "createdAt": "2022-04-11T14:32:20Z",
+          "updatedAt": "2022-04-11T14:32:20Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy8436yO3",
+          "commit": {
+            "abbreviatedOid": "98d70c5"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-04-11T15:04:52Z",
+          "updatedAt": "2022-04-11T15:04:52Z",
+          "comments": []
+        }
+      ]
     },
     {
       "number": 116,
       "id": "PR_kwDODeTEy841vhAh",
       "title": "Add challenge and redemption test vectors",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/116",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "We could omit the authenticator value and just focus on how Token is constructed based on TokenChallenge, but it seems reasonable to include the authenticator so folks can also test that they're computing the token key ID correctly.\r\n\r\nGenerated from [this change](https://github.com/cloudflare/pat-go/pull/8).",
       "createdAt": "2022-04-06T15:26:21Z",
-      "updatedAt": "2022-04-06T15:54:24Z",
+      "updatedAt": "2022-04-11T14:32:01Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "a7c0bd43c91fd7bed940d4076d95a58b4f0b051a",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "caw/auth-test-vectors",
       "headRefOid": "a53d1cbe5c3a2f9d06ad35fdc7f52ea5054ba28f",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2022-04-11T14:32:01Z",
+      "mergedAt": "2022-04-11T14:32:01Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "830e16f2e57c2c3a545123c7decde438035129ab"
+      },
       "comments": [],
       "reviews": [
         {
