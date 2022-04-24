@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-04-12T01:17:42.345107+00:00",
+  "timestamp": "2022-04-24T01:18:53.906351+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1514,9 +1514,24 @@
       "labels": [],
       "body": "I would like to challenge the following snippet in the RFC, especially the use of the word **MUST**.\r\n> \"challenge\", which contains a base64url-encoded {{!RFC4648}} TokenChallenge value. **Since the length of the challenge is not fixed, the base64url data MUST include padding.**\r\n\r\nBase 64 decoding does not require the padding to get the *exact* encoded value, bit-for-bit.\r\n\r\nFrom what I understand, issues arise when it's impossible to know the length of the encoded base64 payload, due to lack of delimiters. eg, if we encode `hello` and `world`, then concat them (without padding), this gives us:\r\n`aGVsbG8=` + `d29ybGQ=` == `aGVsbG8d29ybGQ` ==> `hello.\u00db\u00dc..`\r\n\r\nWhen the base64 length is fully known (thanks to delimiters like space or line breaks), this is a non-issue.\r\n\r\n\r\nMay I recommend that clients instead **MUST support** base64url encoding with and without padding?",
       "createdAt": "2022-04-11T16:05:57Z",
-      "updatedAt": "2022-04-11T16:05:57Z",
+      "updatedAt": "2022-04-18T22:14:41Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks for filing @punkeel! There's a couple reasons why we went with padding. First, padding seems to be the default encoding for most [many](https://docs.rs/base64/latest/base64/index.html) [base64](https://pkg.go.dev/encoding/base64) [implementations](https://source.chromium.org/chromium/chromium/src/+/main:base/base64url.h). Second, as you point out, no padding is an issue without a known length, so this would require us to specify that length in order to help clients parse things correctly. That pushes complexity into the protocol. Putting these together, allowing unpadded base64 would just force all clients to implement a thing that's not really needed while also making the protocol more complex, so it didn't seem worth the flexibility. ",
+          "createdAt": "2022-04-18T22:10:49Z",
+          "updatedAt": "2022-04-18T22:10:49Z"
+        },
+        {
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "body": "There's also a desire amongst the authors to keep the supported cases be stricter and more limited to avoid interop problems.\r\n\r\nThe question I have is who benefits by allowing the specification to be loose here in allowing both forms in both directions?",
+          "createdAt": "2022-04-18T22:14:41Z",
+          "updatedAt": "2022-04-18T22:14:41Z"
+        }
+      ]
     },
     {
       "number": 118,
@@ -1533,6 +1548,73 @@
       "body": "The publicly verifiable basic token issuance protocol doesn't include an origin name that the issuer can see, so it does allow origins to be able to use that issuer (as long as the know the key) without explicit coordination or permission from the issuer. This isn't necessarily a problem, but we should likely mention it.",
       "createdAt": "2022-04-11T19:16:46Z",
       "updatedAt": "2022-04-11T19:16:46Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 119,
+      "id": "I_kwDODeTEy85IDmIs",
+      "title": "Forgery definition",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/119",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "architecture"
+      ],
+      "body": "We current state this as the requirement:\r\n\r\n> One-more forgery security. The issuance protocol MUST NOT allow malicious Clients or Attesters (acting as Clients) to forge tokens without interacting with the Issuer directly.\r\n\r\nThis could be misread in that we do allow forgeries when interacting with the Issuer directly. Clearly that's not the intent, so let's fix this.",
+      "createdAt": "2022-04-19T22:01:29Z",
+      "updatedAt": "2022-04-19T22:01:42Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 120,
+      "id": "I_kwDODeTEy85INv6T",
+      "title": "Blind RSA identifier ",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/120",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "The SPKI format is currently unspecified, and as there are multiple ways to encode an RSA public key (and hash algorithm), this makes interop somewhat difficult. Moreover, the SPKI can encode any number of RSA public key sizes, in contrast to elliptic curves wherein the \"suite\" typically defines the key size. In the name of simplicity, I'd propose that we have the identifier fully specify everything one needs to use the algorithm, including key size, hash algorithm, and encoding format.",
+      "createdAt": "2022-04-21T21:19:33Z",
+      "updatedAt": "2022-04-22T15:05:07Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Clarified that this would mean that each token type fully specifies the algorithms and sizes it uses. I support this.",
+          "createdAt": "2022-04-21T21:42:55Z",
+          "updatedAt": "2022-04-21T21:42:55Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Right, specifically, I think each type would specify:\r\n\r\n1. Hash algorithm\r\n2. Public key (and signature) size\r\n3. Public key encoding\r\n\r\nThere's a large number of permutations here, e.g.,\r\n\r\n- SHA-256, 4096-bit key, RSASSA-PSS OID SPKI\r\n- SHA-256, 2048-bit key, RSASSA-PSS OID SPKI\r\n- ...\r\n\r\n",
+          "createdAt": "2022-04-22T15:03:06Z",
+          "updatedAt": "2022-04-22T15:05:07Z"
+        }
+      ]
+    },
+    {
+      "number": 121,
+      "id": "I_kwDODeTEy85IOS84",
+      "title": "Clearly explain least significant byte in key_id",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/121",
+      "state": "OPEN",
+      "author": "tfpauly",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "protocol"
+      ],
+      "body": "We should be explicit about what this means:\r\n\r\n`\"token_key_id\" is the least significant byte of the key_id.`\r\n\r\nThis means that the byte is the last/rightmost byte of the hash, in order. Misinterpretation of this caused some confusion in interop.",
+      "createdAt": "2022-04-22T01:22:15Z",
+      "updatedAt": "2022-04-22T01:22:15Z",
       "closedAt": null,
       "comments": []
     }
@@ -7439,7 +7521,7 @@
       ],
       "body": "Closes #102",
       "createdAt": "2022-03-15T15:03:54Z",
-      "updatedAt": "2022-03-15T20:15:16Z",
+      "updatedAt": "2022-04-18T11:26:16Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "079d020a283ff89e2ede31084574560b7faf245f",
@@ -7485,6 +7567,19 @@
           "body": "",
           "createdAt": "2022-03-15T16:03:27Z",
           "updatedAt": "2022-03-15T16:03:27Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDODeTEy844SQ_h",
+          "commit": {
+            "abbreviatedOid": "0124db3"
+          },
+          "author": "Viosuna",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-04-18T11:26:16Z",
+          "updatedAt": "2022-04-18T11:26:16Z",
           "comments": []
         }
       ]
@@ -7955,6 +8050,184 @@
           "body": "",
           "createdAt": "2022-04-06T15:54:24Z",
           "updatedAt": "2022-04-06T15:54:24Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 122,
+      "id": "PR_kwDODeTEy842oZl6",
+      "title": "Pin down RSA details",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/122",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This is a breaking change since it updates the value of the code points. Starting as a draft until I'm able to produce matching test vectors. \r\n\r\nCloses #120.",
+      "createdAt": "2022-04-22T15:14:47Z",
+      "updatedAt": "2022-04-22T16:35:17Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "e67114b94229ae902c89f55ac5b07406b21c3a0f",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "caw/pin-rsa",
+      "headRefOid": "92367b19aa5c8f31a8a42dfce418767cefa21135",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hm, I was thinking we'd just fully specify the types 1 and 2 right now, rather than trying to define a bunch of different combinations up front. Is there a benefit to listing all of the combinations out? Since for interop we want convergence on types, why not just have a very standard 1 and 2?",
+          "createdAt": "2022-04-22T15:43:53Z",
+          "updatedAt": "2022-04-22T15:43:53Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Convergence seems orthogonal to the values here, no? Implementations could just pick a common type, as we've done for ECH, HPKE, etc. It seems important to offer flexibility here for applications that might need it.",
+          "createdAt": "2022-04-22T16:00:15Z",
+          "updatedAt": "2022-04-22T16:00:15Z"
+        },
+        {
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "body": "For the common web cases, where we have websites that want to work with the wide range of clients, I'd prefer to see a very clear option of what to use by default \u2014 with one for privately verifiable, and one for publicly verifiable. If people have use cases that can't use these algorithms (like we've seen for IOT use cases, etc, for other protocols), I'd rather see those defined when there's a profile that has a driving use case. For example, we could end up defining a full matrix of different SHA lengths and key sizes (they're all 4096 right now for RSA, but we could have others) and that seems unnecessary.",
+          "createdAt": "2022-04-22T16:13:57Z",
+          "updatedAt": "2022-04-22T16:13:57Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": ">  If people have use cases that can't use these algorithms (like we've seen for IOT use cases, etc, for other protocols), I'd rather see those defined when there's a profile that has a driving use case.\r\n\r\nWell, we can RECOMMEND issuance protocols for common use cases, as we've done for ECH. ",
+          "createdAt": "2022-04-22T16:16:24Z",
+          "updatedAt": "2022-04-22T16:16:24Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Reverted type2 change!",
+          "createdAt": "2022-04-22T16:33:54Z",
+          "updatedAt": "2022-04-22T16:33:54Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy844pOfD",
+          "commit": {
+            "abbreviatedOid": "20b6700"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-04-22T16:32:37Z",
+          "updatedAt": "2022-04-22T16:32:38Z",
+          "comments": [
+            {
+              "originalPosition": 30,
+              "body": "I think you mean 0x0002 here \u2014 but I'd also like to keep 2 as the default blind RSA type",
+              "createdAt": "2022-04-22T16:32:37Z",
+              "updatedAt": "2022-04-22T16:32:38Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 123,
+      "id": "PR_kwDODeTEy842oaE7",
+      "title": "Be more specific about the key ID",
+      "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/123",
+      "state": "OPEN",
+      "author": "chris-wood",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Closes #121.",
+      "createdAt": "2022-04-22T15:16:57Z",
+      "updatedAt": "2022-04-22T16:20:15Z",
+      "baseRepository": "ietf-wg-privacypass/base-drafts",
+      "baseRefName": "master",
+      "baseRefOid": "e67114b94229ae902c89f55ac5b07406b21c3a0f",
+      "headRepository": "ietf-wg-privacypass/base-drafts",
+      "headRefName": "chris-wood-patch-1",
+      "headRefOid": "ec5b046a1d4095211e74625331f6b022ceb25e9a",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Is this the most exact way to put this? For byte arrays like a hash, I generally don't think of it as being network- or host- byte order. Do we have other docs that refer to stuff like this that we can crib from?",
+          "createdAt": "2022-04-22T15:41:11Z",
+          "updatedAt": "2022-04-22T15:41:11Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Nothing comes to mind right now, but I'm happy to look at alternatives.",
+          "createdAt": "2022-04-22T15:46:37Z",
+          "updatedAt": "2022-04-22T15:46:37Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDODeTEy844pK3n",
+          "commit": {
+            "abbreviatedOid": "ec5b046"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-04-22T16:19:40Z",
+          "updatedAt": "2022-04-22T16:19:41Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "```suggestion\r\n- \"token_key_id\" is the least significant byte of the `key_id` in network byte order (in other words, the last 8 bits of `key_id`).\r\n```",
+              "createdAt": "2022-04-22T16:19:40Z",
+              "updatedAt": "2022-04-22T16:19:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy844pK6B",
+          "commit": {
+            "abbreviatedOid": "ec5b046"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-04-22T16:19:50Z",
+          "updatedAt": "2022-04-22T16:19:51Z",
+          "comments": [
+            {
+              "originalPosition": 14,
+              "body": "```suggestion\r\n- \"token_key_id\" is the least significant byte of the `key_id` in network byte order (in other words, the last 8 bits of `key_id`).\r\n```",
+              "createdAt": "2022-04-22T16:19:50Z",
+              "updatedAt": "2022-04-22T16:19:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDODeTEy844pLAh",
+          "commit": {
+            "abbreviatedOid": "ec5b046"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Here's an attempt at saying this in other words to be extra clear?",
+          "createdAt": "2022-04-22T16:20:15Z",
+          "updatedAt": "2022-04-22T16:20:15Z",
           "comments": []
         }
       ]
