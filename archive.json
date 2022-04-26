@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-04-24T01:18:53.906351+00:00",
+  "timestamp": "2022-04-26T01:37:54.209756+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -8066,13 +8066,13 @@
       "labels": [],
       "body": "This is a breaking change since it updates the value of the code points. Starting as a draft until I'm able to produce matching test vectors. \r\n\r\nCloses #120.",
       "createdAt": "2022-04-22T15:14:47Z",
-      "updatedAt": "2022-04-22T16:35:17Z",
+      "updatedAt": "2022-04-26T00:50:28Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "e67114b94229ae902c89f55ac5b07406b21c3a0f",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "caw/pin-rsa",
-      "headRefOid": "92367b19aa5c8f31a8a42dfce418767cefa21135",
+      "headRefOid": "39ee88a96667076498990874835e7af691caca24",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
@@ -8112,6 +8112,13 @@
           "body": "Reverted type2 change!",
           "createdAt": "2022-04-22T16:33:54Z",
           "updatedAt": "2022-04-22T16:33:54Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "@tfpauly this is good to go now -- please have a look!",
+          "createdAt": "2022-04-26T00:50:27Z",
+          "updatedAt": "2022-04-26T00:50:27Z"
         }
       ],
       "reviews": [
