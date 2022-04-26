@@ -5,14 +5,14 @@
 Network Working Group                                            S. Celi
 Internet-Draft                                                Cloudflare
 Intended status: Informational                               A. Davidson
-Expires: 13 October 2022                                  Brave Software
+Expires: 28 October 2022                                  Brave Software
                                                         A. Faz-Hernandez
                                                               Cloudflare
                                                                S. Valdez
                                                               Google LLC
                                                               C. A. Wood
                                                               Cloudflare
-                                                           11 April 2022
+                                                           26 April 2022
 
 
                      Privacy Pass Issuance Protocol
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 13 October 2022.
+   This Internet-Draft will expire on 28 October 2022.
 
 Copyright Notice
 
@@ -63,8 +63,7 @@ Table of Contents
    2.  Terminology
    3.  Configuration
    4.  Token Challenge Requirements
-   5.  Issuance Protocol for Privately Verifiable Tokens with Public
-           Metadata
+   5.  Issuance Protocol for Privately Verifiable Tokens
      5.1.  Client-to-Issuer Request
      5.2.  Issuer-to-Client Response
      5.3.  Finalization
@@ -168,8 +167,7 @@ Table of Contents
    The basic token issuance protocols described in this document can be
    interactive or non-interactive, and per-origin or cross-origin.
 
-5.  Issuance Protocol for Privately Verifiable Tokens with Public
-    Metadata
+5.  Issuance Protocol for Privately Verifiable Tokens
 
    The Privacy Pass issuance protocol is a two message protocol that
    takes as input a challenge from the redemption protocol and produces
