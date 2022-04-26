@@ -5,10 +5,10 @@
 Network Working Group                                           T. Pauly
 Internet-Draft                                                Apple Inc.
 Intended status: Standards Track                               S. Valdez
-Expires: 24 October 2022                                      Google LLC
+Expires: 28 October 2022                                      Google LLC
                                                               C. A. Wood
                                                               Cloudflare
-                                                           22 April 2022
+                                                           26 April 2022
 
 
               The Privacy Pass HTTP Authentication Scheme
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 24 October 2022.
+   This Internet-Draft will expire on 28 October 2022.
 
 Copyright Notice
 
@@ -568,9 +568,8 @@ Table of Contents
    [COOKIES]  Chen, L., Englehardt, S., West, M., and J. Wilander,
               "Cookies: HTTP State Management Mechanism", Work in
               Progress, Internet-Draft, draft-ietf-httpbis-rfc6265bis-
-              09, 19 October 2021,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-httpbis-
-              rfc6265bis-09>.
+              10, 24 April 2022, <https://datatracker.ietf.org/doc/html/
+              draft-ietf-httpbis-rfc6265bis-10>.
 
    [I-D.ietf-privacypass-architecture]
               Davidson, A., Iyengar, J., and C. A. Wood, "Privacy Pass
