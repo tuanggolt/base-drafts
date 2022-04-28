@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2022-04-26T01:37:54.209756+00:00",
+  "timestamp": "2022-04-28T02:03:57.221164+00:00",
   "repo": "ietf-wg-privacypass/base-drafts",
   "labels": [
     {
@@ -1574,15 +1574,15 @@
       "id": "I_kwDODeTEy85INv6T",
       "title": "Blind RSA identifier ",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/120",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "The SPKI format is currently unspecified, and as there are multiple ways to encode an RSA public key (and hash algorithm), this makes interop somewhat difficult. Moreover, the SPKI can encode any number of RSA public key sizes, in contrast to elliptic curves wherein the \"suite\" typically defines the key size. In the name of simplicity, I'd propose that we have the identifier fully specify everything one needs to use the algorithm, including key size, hash algorithm, and encoding format.",
       "createdAt": "2022-04-21T21:19:33Z",
-      "updatedAt": "2022-04-22T15:05:07Z",
-      "closedAt": null,
+      "updatedAt": "2022-04-26T02:55:11Z",
+      "closedAt": "2022-04-26T02:55:11Z",
       "comments": [
         {
           "author": "tfpauly",
@@ -1605,7 +1605,7 @@
       "id": "I_kwDODeTEy85IOS84",
       "title": "Clearly explain least significant byte in key_id",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/issues/121",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "tfpauly",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -1614,8 +1614,8 @@
       ],
       "body": "We should be explicit about what this means:\r\n\r\n`\"token_key_id\" is the least significant byte of the key_id.`\r\n\r\nThis means that the byte is the last/rightmost byte of the hash, in order. Misinterpretation of this caused some confusion in interop.",
       "createdAt": "2022-04-22T01:22:15Z",
-      "updatedAt": "2022-04-22T01:22:15Z",
-      "closedAt": null,
+      "updatedAt": "2022-04-26T02:47:20Z",
+      "closedAt": "2022-04-26T02:47:20Z",
       "comments": []
     }
   ],
@@ -8059,24 +8059,26 @@
       "id": "PR_kwDODeTEy842oZl6",
       "title": "Pin down RSA details",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/122",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This is a breaking change since it updates the value of the code points. Starting as a draft until I'm able to produce matching test vectors. \r\n\r\nCloses #120.",
       "createdAt": "2022-04-22T15:14:47Z",
-      "updatedAt": "2022-04-26T00:50:28Z",
+      "updatedAt": "2022-04-26T02:55:11Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "e67114b94229ae902c89f55ac5b07406b21c3a0f",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "caw/pin-rsa",
-      "headRefOid": "39ee88a96667076498990874835e7af691caca24",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "2b08bb53aa75868fc33f69647b8ee4fc46145180",
+      "closedAt": "2022-04-26T02:55:11Z",
+      "mergedAt": "2022-04-26T02:55:11Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "e9e0efca4533c4d0ac7f8d7063a68f467b437d94"
+      },
       "comments": [
         {
           "author": "tfpauly",
@@ -8141,6 +8143,19 @@
               "updatedAt": "2022-04-22T16:32:38Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDODeTEy844yIaS",
+          "commit": {
+            "abbreviatedOid": "39ee88a"
+          },
+          "author": "tfpauly",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2022-04-26T02:35:14Z",
+          "updatedAt": "2022-04-26T02:35:14Z",
+          "comments": []
         }
       ]
     },
@@ -8149,24 +8164,26 @@
       "id": "PR_kwDODeTEy842oaE7",
       "title": "Be more specific about the key ID",
       "url": "https://github.com/ietf-wg-privacypass/base-drafts/pull/123",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "chris-wood",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "Closes #121.",
       "createdAt": "2022-04-22T15:16:57Z",
-      "updatedAt": "2022-04-22T16:20:15Z",
+      "updatedAt": "2022-04-26T02:47:20Z",
       "baseRepository": "ietf-wg-privacypass/base-drafts",
       "baseRefName": "master",
       "baseRefOid": "e67114b94229ae902c89f55ac5b07406b21c3a0f",
       "headRepository": "ietf-wg-privacypass/base-drafts",
       "headRefName": "chris-wood-patch-1",
-      "headRefOid": "ec5b046a1d4095211e74625331f6b022ceb25e9a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "62fc07fc2d194ea931bd909bcc90edac7f88e48e",
+      "closedAt": "2022-04-26T02:47:20Z",
+      "mergedAt": "2022-04-26T02:47:20Z",
+      "mergedBy": "chris-wood",
+      "mergeCommit": {
+        "oid": "b428c5184870eee12fe0bec11dddd7fae620c889"
+      },
       "comments": [
         {
           "author": "tfpauly",
@@ -8181,6 +8198,13 @@
           "body": "Nothing comes to mind right now, but I'm happy to look at alternatives.",
           "createdAt": "2022-04-22T15:46:37Z",
           "updatedAt": "2022-04-22T15:46:37Z"
+        },
+        {
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Works for me =) ",
+          "createdAt": "2022-04-26T02:46:54Z",
+          "updatedAt": "2022-04-26T02:46:54Z"
         }
       ],
       "reviews": [
@@ -8236,6 +8260,26 @@
           "createdAt": "2022-04-22T16:20:15Z",
           "updatedAt": "2022-04-22T16:20:15Z",
           "comments": []
+        },
+        {
+          "id": "PRR_kwDODeTEy844yJqz",
+          "commit": {
+            "abbreviatedOid": "ec5b046"
+          },
+          "author": "chris-wood",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2022-04-26T02:46:36Z",
+          "updatedAt": "2022-04-26T02:46:36Z",
+          "comments": [
+            {
+              "originalPosition": 5,
+              "body": "\ud83d\udc4d Great!",
+              "createdAt": "2022-04-26T02:46:36Z",
+              "updatedAt": "2022-04-26T02:46:36Z"
+            }
+          ]
         }
       ]
     }
